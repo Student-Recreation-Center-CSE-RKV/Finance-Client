@@ -228,9 +228,9 @@ export default function Demo() {
         </List>
         <Divider />
         <List>
-          {["Student Details", "Student Fee"].map((text, index) => (
+          {["Upload Excel"].map((text, index) => (
             <Link
-              to={text === "Login" ? "/Auth/Login" : "/"}
+              to={text === "Upload Excel" ? "/Upload" : "/"}
               style={{
                 textDecoration: "none",
                 color: "black",

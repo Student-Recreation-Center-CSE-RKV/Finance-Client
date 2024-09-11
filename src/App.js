@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import CustomizedSnackbar from "./components/Snackbar";
+import LoginForm from './pages/Login';
+import UploadPage from "./pages/Upload";
 function App() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState("");
@@ -41,9 +43,15 @@ function App() {
           }
         />
         <Route
+          path="/Upload"
+          element={
+            <UploadPage triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
           path="/Auth/Login"
           element={
-            <Home triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            <LoginForm/>
           }
         />
       </Routes>
