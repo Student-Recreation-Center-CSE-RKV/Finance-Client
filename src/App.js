@@ -7,7 +7,10 @@ import LoginForm from './pages/Login';
 import UploadPage from "./pages/Upload";
 function App() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({
+    msg: "",
+    type: "",
+  });
   // Function to trigger Snackbar
   const showSnackbar = () => {
     setOpenSnackbar(true);
