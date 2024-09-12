@@ -16,14 +16,23 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 
+
+
 const UploadPage = ({ triggerSnackbar, setMessage }) => {
   const [fileType, setFileType] = useState("student");
   const [selectedFile, setSelectedFile] = useState(null);
   const [typeOfExcel, setTypeOfFile] = useState("tutionFee");
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
+  const url =
+    process.env.REACT_APP_BASE_URL_PROTOCOL +
+    process.env.REACT_APP_BASE_URL_HOST +
+    process.env.REACT_APP_BASE_URL_POST +
+    process.env.REACT_APP_VERSION
+
   // Handle file selection
   const handleFileChange = (event) => {
+    console.log(url)
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
@@ -45,8 +54,17 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
     formData.append("file", selectedFile);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/api/v1/upload/tution/student",
+      let newurl=url;
+      if(typeOfExcel=="studentDetails")
+        newurl+="/upload/tution/student"
+      else if(typeOfExcel=="tutionFee")
+        newurl+="/upload/fee"
+      else if(typeOfExcel=="scholarShip")
+        newurl+="/upload/sch"
+      else
+        newurl+="/upload/loan"
+      console.log(newurl)
+      const response = await axios.post(newurl,
         formData,
         {
           headers: {

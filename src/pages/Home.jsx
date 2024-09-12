@@ -29,7 +29,9 @@ export default function Home({ triggerSnackbar, setMessage }) {
       toggleLoading(true);
       toggleError(false);
       try {
+        // console.log(getStudentByIdApi + ID)
         const response = await axios.get(getStudentByIdApi + ID);
+        console.log(response)
         if (response.status === 200) {
           changeData(response.data);
           snackbarUtil(
