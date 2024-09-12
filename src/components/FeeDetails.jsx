@@ -103,10 +103,11 @@ export default function FeeDetails({ data }) {
           justifyContent: "center",
           alignItems: "center",
           margin: "3rem ",
+          marginTop: "1rem",
         }}
       >
         <Typography variant="h6" marginBottom="1rem">
-          Fee Details-Installments
+          Scholarship
         </Typography>
         <TableContainer component={Paper}>
           <Table aria-label="fee data table">
