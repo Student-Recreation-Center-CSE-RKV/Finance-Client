@@ -22,7 +22,7 @@ export default function Search({ getData, setID, ID, isLoading, isError }) {
         error={isError}
         id="outlined-textarea"
         label={location.pathname === "/" ? "Enter ID" : "Enter Due No."}
-        placeholder={location.pathname === "/" ? "RXXXXXX" : "DUEXXXXX"}
+        placeholder={location.pathname === "/" ? "RXXXXXX" : "XXXXXXXXX"}
         onChange={(e) => {
           setID(e.target.value);
         }}
