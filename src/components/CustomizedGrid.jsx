@@ -20,7 +20,7 @@ export default function CustomizedGrid({ data }) {
             justifyContent: "space-evenly",
           }}
         >
-          <Typography variant="h6">RKV ID No: {data.ID}</Typography>
+          <Typography variant="h6">RKV ID No: {data && data.ID}</Typography>
         </Item>
       </Grid2>
     </>

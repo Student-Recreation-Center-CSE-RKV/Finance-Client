@@ -4,6 +4,9 @@ import { useState } from "react";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
+import Header from "../components/Header";
+import CustomizedGrid from "../components/CustomizedGrid";
+import FeeDetails from "../components/FeeDetails";
 export default function BankDue({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
@@ -12,7 +15,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
     process.env.REACT_APP_BASE_URL_HOST +
     process.env.REACT_APP_BASE_URL_POST +
     process.env.REACT_APP_VERSION +
-    process.env.REACT_APP_GET_STUDENT_FEE_BY_ID;
+    process.env.REACT_APP_GET_BANK_DUE;
   const changeData = (e) => {
     setData(e);
   };
@@ -27,6 +30,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
       toggleError(false);
       try {
         const response = await axios.get(getStudentByIdApi + ID);
+        console.log(response);
         if (response.status === 200) {
           changeData(response.data);
           snackbarUtil(
@@ -73,6 +77,14 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
         isLoading={isLoading}
         isError={isError}
       />
+      {Object.keys(data).length !== 0 && (
+        <>
+          <Header />
+          <CustomizedGrid data={data && data.due} />
+          {/* <StudentDetails data={data.student.student} /> */}
+          <FeeDetails data={data.due} />
+        </>
+      )}
     </>
   );
 }
