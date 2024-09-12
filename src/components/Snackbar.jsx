@@ -5,14 +5,14 @@ import Alert from "@mui/material/Alert";
 export default function CustomizedSnackbar({ open, onClose, message }) {
   return (
     <div>
-      <Snackbar open={open} autoHideDuration={6000} onClose={onClose}>
+      <Snackbar open={open} autoHideDuration={5000} onClose={onClose}>
         <Alert
           onClose={onClose}
-          severity="success"
+          severity={message.type}
           variant="filled"
           sx={{ width: "100%" }}
         >
-          {message}
+          {message.msg}
         </Alert>
       </Snackbar>
     </div>

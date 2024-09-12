@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import Search from "../components/Search";
-import Header from "../components/Header";
-import StudentDetails from "../components/StudentDetails";
-import FeeDetails from "../components/FeeDetails";
-import CustomizedGrid from "../components/CustomizedGrid";
+import { useState } from "react";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-export default function Home({ triggerSnackbar, setMessage }) {
+export default function BankDue({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
   const getStudentByIdApi =
@@ -76,14 +73,6 @@ export default function Home({ triggerSnackbar, setMessage }) {
         isLoading={isLoading}
         isError={isError}
       />
-      {Object.keys(data).length !== 0 && (
-        <>
-          <Header />
-          <CustomizedGrid data={data.student.student} />
-          <StudentDetails data={data.student.student} />
-          <FeeDetails data={data} />
-        </>
-      )}
     </>
   );
 }
