@@ -1,8 +1,4 @@
 import React from "react";
-import Grid2 from "@mui/material/Grid2";
-import { Typography, Paper } from "@mui/material";
-import { styled } from "@mui/material/styles";
-// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import {
   Table,
   TableBody,
@@ -10,181 +6,111 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
+  Typography,
+  Box,
 } from "@mui/material";
-import { Box } from "@mui/material";
 import { useLocation } from "react-router-dom";
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
-  textAlign: "center",
-  boxShadow: "none",
-}));
 
 export default function FeeDetails({ data }) {
   const location = useLocation();
   return (
     <>
-      <Grid2 container xs={12} item direction={"column"} alignItems={"center"}>
-        <Typography variant="h6" marginTop="1rem" marginBottom="1rem">
-          Fee Details-Installments
-        </Typography>
-        <Item
-          sx={{
-            width: "50%",
-            boxShadow: 3,
-            padding: "1rem",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography variant="h7">Reciept No.</Typography>
-          <Typography variant="h7">Amount</Typography>
-          <Typography variant="h7">Date</Typography>
-        </Item>
-        {data && location.pathname === "/"
-          ? data.tutionFee.installments.map((item) => {
-              return (
-                <Item
-                  sx={{
-                    width: "50%",
-                    boxShadow: 3,
-                    padding: "1rem",
-                    marginTop: "1rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography variant="h7">{item.ReceiptNo}.</Typography>
-                  <Typography variant="h7">{item.Date}</Typography>
-                  <Typography variant="h7">{item.Amount}</Typography>
-                </Item>
-              );
-            })
-          : data.installments.map((item) => {
-              return (
-                <Item
-                  sx={{
-                    width: "50%",
-                    boxShadow: 3,
-                    padding: "1rem",
-                    marginTop: "1rem",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Typography variant="h7">{item.ReceiptNo}.</Typography>
-                  <Typography variant="h7">{item.Date}</Typography>
-                  <Typography variant="h7">{item.Amount}</Typography>
-                </Item>
-              );
-            })}
-        <Item
-          sx={{
-            width: "50%",
-            boxShadow: 3,
-            padding: "1rem",
-            display: "flex",
-            alignItems: "right",
-            marginTop: "1rem",
-            marginBottom: "1rem",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography variant="h7">Grand Total</Typography>
 
-          <Typography variant="h7">
-            {data && location.pathname === "/"
-              ? data.tutionFee.Total
-              : data.Total}
-          </Typography>
-        </Item>
-      </Grid2>
-      {location.pathname === "/" && (
-        <Box
-          sx={{
-            width: "95%",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            margin: "3rem ",
-            marginTop: "1rem",
-          }}
-        >
-          <Typography variant="h6" marginBottom="1rem">
-            Scholarship
-          </Typography>
-          <TableContainer component={Paper}>
-            <Table aria-label="fee data table">
-              {/* Table Head */}
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="h7">Academic Year</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Fee to be Paid</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Scholarship Received</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Total Sch Received</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Other Scholarship/Loan</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Fee Paid by Student</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Grand Total</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h7">Remaining Balance</Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
+<TableContainer component={Paper} sx={{ width: "68%", margin: "auto", marginTop: "1rem" }}>
+  <Typography variant="h6" align="center" sx={{ marginTop: "1rem", marginBottom: "1rem", fontWeight: "bold" }}>
+    Fee Details - Installments
+  </Typography>
+  <Table>
+    <TableHead>
+      <TableRow sx={{ backgroundColor: "#000" }}> {/* Black background for header */}
+        <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Receipt No.</TableCell> {/* White text */}
+        <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Date</TableCell>
+        <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Amount</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {data && location.pathname === "/"
+        ? data.tutionFee.installments.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell align="center">{item.ReceiptNo}</TableCell>
+            <TableCell align="center">{item.Amount}</TableCell>
+            <TableCell align="center">{item.Date}</TableCell>
+          </TableRow>
+        ))
+        : data.installments.map((item, index) => (
+          <TableRow key={index}>
+            <TableCell align="center">{item.ReceiptNo}</TableCell>
+            <TableCell align="center">{item.Date}</TableCell>
+            <TableCell align="center">{item.Amount}</TableCell>
+          </TableRow>
+        ))}
+    </TableBody>
+  </Table>
+</TableContainer>
 
-              <TableBody>
-                {data &&
-                  data.sch.academicYears.map((row, index) =>
-                    row.ActualPay !== 0 ? (
-                      <TableRow key={index}>
-                        <TableCell>{row.Year}</TableCell>
-                        <TableCell>{row.ActualPay}</TableCell>
-                        <TableCell>
-                          {row.SchReceived === null ? 0 : row.SchReceived}
-                        </TableCell>
-
-                        {/* Merged cells with rowSpan */}
-                        {index === 0 && (
-                          <>
-                            <TableCell rowSpan={data.sch.academicYears.length}>
-                              {data.sch.TotalSch}
-                            </TableCell>
-                            <TableCell rowSpan={data.sch.academicYears.length}>
-                              {data.sch.OtherSch}
-                            </TableCell>
-                            <TableCell rowSpan={data.sch.academicYears.length}>
-                              {data.sch.FeePaidbyTheStudent}
-                            </TableCell>
-
-                            <TableCell rowSpan={data.sch.academicYears.length}>
-                              {data.sch.TotalFeePaid}
-                            </TableCell>
-                            <TableCell rowSpan={data.sch.academicYears.length}>
-                              {data.sch.RemainingBalance}
-                            </TableCell>
-                          </>
-                        )}
-                      </TableRow>
-                    ) : null
+{/* Conditional Scholarship Table */}
+{location.pathname === "/" && (
+  <Box sx={{ width: "68%", margin: "auto", marginTop: "2rem" }}>
+    <Typography variant="h6" align="center" sx={{ marginBottom: "1rem", fontWeight: "bold" }}>
+      Scholarship
+    </Typography>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow sx={{ backgroundColor: "#000" }}> {/* Black background for table head */}
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Academic Year</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Fee to be Paid</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Scholarship Received</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Other Scholarship/Loan</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Fee Paid by Student</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Grand Total</TableCell>
+            <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>Remaining Balance</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data &&
+            data.sch.academicYears.map((row, index) => (
+              row.ActualPay !== 0 && (
+                <TableRow key={index}>
+                  <TableCell align="center">{row.Year}</TableCell>
+                  <TableCell align="center">{row.ActualPay}</TableCell>
+                  <TableCell align="center">{row.SchReceived ?? 0}</TableCell>
+                  {index === 0 && (
+                    <>
+                      <TableCell align="center" rowSpan={data.sch.academicYears.length}>
+                        {data.sch.OtherSch}
+                      </TableCell>
+                      <TableCell align="center" rowSpan={data.sch.academicYears.length}>
+                        {data.sch.FeePaidbyTheStudent}
+                      </TableCell>
+                      <TableCell align="center" rowSpan={data.sch.academicYears.length}>
+                        {data.sch.TotalFeePaid}
+                      </TableCell>
+                      <TableCell align="center" rowSpan={data.sch.academicYears.length}>
+                        {data.sch.RemainingBalance}
+                      </TableCell>
+                    </>
                   )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-      )}
+                </TableRow>
+              )
+            ))}
+
+          {/* Total Scholarship Row */}
+          <TableRow>
+            <TableCell colSpan={2} sx={{ fontWeight: "bold", textAlign: "right" }}>
+              Total Scholarship Received:
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>{data.sch.TotalSch}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Box>
+)}
+
+
+
     </>
   );
 }

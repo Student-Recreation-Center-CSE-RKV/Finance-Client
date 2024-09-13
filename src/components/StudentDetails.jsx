@@ -1,51 +1,30 @@
-import Grid2 from "@mui/material/Grid2";
 import React from "react";
-import { Typography, Paper, Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
-  textAlign: "left",
-}));
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+
 export default function StudentDetails({ data }) {
   return (
-    <>
-      <Box sx={{ flexGrow: 1, marginTop: "1rem", padding: "1rem" }}>
-        <Grid2 container xs={12} direction={"column"} alignItems={"center"}>
-          <Grid2
-            sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              boxShadow: 3,
-              width: "50%",
-            }}
-            spacing={5}
-          >
-            <Item sx={{ boxShadow: "none" }}>
-              <Grid2 item>
-                <Typography variant="h7">
-                  Student: {data.StudentName}
-                </Typography>
-              </Grid2>
-              <Grid2 item>
-                <Typography variant="h7">Batch: {data.BATCH}</Typography>
-              </Grid2>
-            </Item>
-            <Item sx={{ boxShadow: "none" }}>
-              <Grid2 item>
-                <Typography variant="h7">
-                  Father's Name: {data.FatherName}
-                </Typography>
-              </Grid2>
-              <Grid2 item>
-                <Typography variant="h7">Gender: {data.Gender}</Typography>
-              </Grid2>
-              <Grid2 item>
-                <Typography variant="h7">Category: {data.Category}</Typography>
-              </Grid2>
-            </Item>
-          </Grid2>
-        </Grid2>
-      </Box>
-    </>
+    <TableContainer component={Paper} sx={{ width: "68%", margin: "auto", marginTop: "1rem" }}>
+  <Table>
+    <TableHead>
+      <TableRow  sx={{ backgroundColor: "#000" }}>
+        <TableCell align="center" sx={{ fontWeight: "bold", textAlign: "center", color: "#fff"  }}>Student</TableCell>
+        <TableCell align="center" sx={{ fontWeight: "bold" , textAlign: "center", color: "#fff" }}>Batch</TableCell>
+        <TableCell align="center" sx={{ fontWeight: "bold" , textAlign: "center", color: "#fff" }}>Father's Name</TableCell>
+        <TableCell align="center" sx={{ fontWeight: "bold", textAlign: "center", color: "#fff"  }}>Gender</TableCell>
+        <TableCell align="center" sx={{ fontWeight: "bold", textAlign: "center", color: "#fff"  }}>Category</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell align="center">{data.StudentName}</TableCell>
+        <TableCell align="center">{data.BATCH}</TableCell>
+        <TableCell align="center">{data.FatherName}</TableCell>
+        <TableCell align="center">{data.Gender}</TableCell>
+        <TableCell align="center">{data.Category}</TableCell>
+      </TableRow>
+    </TableBody>
+  </Table>
+</TableContainer>
+
   );
 }
