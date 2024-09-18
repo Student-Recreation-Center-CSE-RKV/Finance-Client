@@ -1,28 +1,22 @@
 import React from "react";
-import Grid2 from "@mui/material/Grid2";
-import { Typography, Paper } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from "@mui/material";
 
-const Item = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(1),
-  textAlign: "center",
-  boxShadow: "none",
-}));
 export default function CustomizedGrid({ data }) {
   return (
-    <>
-      <Grid2 container xs={12} item direction={"column"} alignItems={"center"}>
-        <Item
-          sx={{
-            width: "50%",
-            boxShadow: 3,
-            display: "flex",
-            justifyContent: "space-evenly",
-          }}
-        >
-          <Typography variant="h6">RKV ID No: {data && data.ID}</Typography>
-        </Item>
-      </Grid2>
-    </>
+    <TableContainer component={Paper} sx={{ width: "68%", margin: "auto", marginTop: "1rem" }}>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell align="center">
+              <Typography variant="h6">
+                RKV ID No: <Typography component="span" fontWeight="bold" variant="h6">{data && data.ID}</Typography>
+              </Typography>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+
+
   );
 }

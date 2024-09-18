@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
 import Header from "../components/Header";
-import StudentDetails from "../components/StudentDetails";
-import FeeDetails from "../components/FeeDetails";
-import CustomizedGrid from "../components/CustomizedGrid";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
+import { Box } from "@mui/material";
+import CustomizedGrid from "../components/CustomizedGrid";
+import StudentDetails from "../components/StudentDetails";
+import FeeDetails from "../components/FeeDetails";
+
+
+
 export default function Home({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
@@ -84,6 +88,8 @@ export default function Home({ triggerSnackbar, setMessage }) {
           <CustomizedGrid data={data.student.student} />
           <StudentDetails data={data.student.student} />
           <FeeDetails data={data} />
+          
+
         </>
       )}
     </>
