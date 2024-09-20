@@ -158,12 +158,15 @@ export default function Demo() {
           >
             <AccountBalanceIcon />
           </IconButton>
+
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            FO
+            <Link to={"/"} style={{ textDecoration: "none" }}>
+              FO
+            </Link>
           </Typography>
 
           <Search sx={{ background: "#ADD8E6" }}>
@@ -208,7 +211,7 @@ export default function Demo() {
         <List>
           {["Student Fee", "Bank Due Details"].map((text, index) => (
             <Link
-              to={text === "Bank Due Details" ? "/Bank/Due" : "/"}
+              to={text === "Bank Due Details" ? "/Bank/Due" : "/Student/fee"}
               style={{
                 textDecoration: "none",
                 color: "black",

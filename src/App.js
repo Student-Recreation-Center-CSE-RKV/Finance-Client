@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import StudentFee from "./pages/StudentFee";
 import CustomizedSnackbar from "./components/Snackbar";
 import LoginForm from "./pages/Login";
 import UploadPage from "./pages/Upload";
 import BankDue from "./pages/BankDue";
+import Home from "./pages/Home";
+import "./App.css";
 function App() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState({
@@ -34,10 +36,14 @@ function App() {
         message={message}
       />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
-          path="/"
+          path="/Student/fee"
           element={
-            <Home triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            <StudentFee
+              triggerSnackbar={showSnackbar}
+              setMessage={setMessage}
+            />
           }
         />
         <Route
