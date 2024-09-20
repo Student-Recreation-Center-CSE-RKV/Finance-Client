@@ -21,7 +21,9 @@ export default function Search({ getData, setID, ID, isLoading, isError }) {
       <TextField
         error={isError}
         id="outlined-textarea"
-        label={location.pathname === "/" ? "Enter ID" : "Enter Due No."}
+        label={
+          location.pathname === "/Student/fee" ? "Enter ID" : "Enter Due No."
+        }
         placeholder={location.pathname === "/" ? "RXXXXXX" : "XXXXXXXXX"}
         onChange={(e) => {
           setID(e.target.value);

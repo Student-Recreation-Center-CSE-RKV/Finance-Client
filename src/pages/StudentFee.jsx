@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Search from "../components/Search";
-import { useState } from "react";
+import Header from "../components/Header";
+import StudentDetails from "../components/StudentDetails";
+import FeeDetails from "../components/FeeDetails";
+import CustomizedGrid from "../components/CustomizedGrid";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-import Header from "../components/Header";
-import CustomizedGrid from "../components/CustomizedGrid";
-import FeeDetails from "../components/FeeDetails";
+import StudentChart from "../components/StudentChart";
 import { motion } from "framer-motion";
-export default function BankDue({ triggerSnackbar, setMessage }) {
+export default function StudentFee({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
   const getStudentByIdApi =
@@ -16,7 +17,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
     process.env.REACT_APP_BASE_URL_HOST +
     process.env.REACT_APP_BASE_URL_POST +
     process.env.REACT_APP_VERSION +
-    process.env.REACT_APP_GET_BANK_DUE;
+    process.env.REACT_APP_GET_STUDENT_FEE_BY_ID;
   const changeData = (e) => {
     setData(e);
   };
@@ -30,6 +31,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
       toggleLoading(true);
       toggleError(false);
       try {
+        // console.log(getStudentByIdApi + ID)
         const response = await axios.get(getStudentByIdApi + ID);
         console.log(response);
         if (response.status === 200) {
@@ -95,8 +97,10 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
             }}
           >
             <Header />
-            <CustomizedGrid data={data && data.due} />
-            <FeeDetails data={data.due} />
+            <CustomizedGrid data={data.student.student} />
+            <StudentDetails data={data.student.student} />
+            <FeeDetails data={data} />
+            <StudentChart data={data} />
           </motion.div>
         </>
       )}
