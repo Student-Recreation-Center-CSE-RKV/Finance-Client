@@ -33,7 +33,9 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
   const handleFileChange = (event) => {
     console.log(url);
     const file = event.target.files[0];
+    console.log(file)
     if (file) {
+      console.log("choosen")
       setSelectedFile(file);
     }
   };
@@ -64,6 +66,7 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       console.log(response);
       if (response.status === 200) {
         setSelectedFile(null);
+        document.getElementById("file-upload-input").value = ""; // Reset the input field
         snackbarUtil(
           setMessage,
           triggerSnackbar,
@@ -180,7 +183,7 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
           sx={{ marginBottom: 2, paddingY: 2, fontSize: "1rem" }}
         >
           {fileType === "student" ? "Choose Student File" : "Choose MSI File"}
-          <input type="file" hidden onChange={handleFileChange} />
+          <input type="file" id="file-upload-input" hidden onChange={handleFileChange} />
         </Button>
 
         {/* Display selected file name */}

@@ -11,7 +11,7 @@ export default function Home() {
   });
 
   const getAllStudents = async () => {
-    const res = await studentsShared.getALlStudents();
+    const res = await studentsShared.getAllStudents(0);
     setStudents(res.data);
     console.log(res.data[0].sch.academicYears);
   };
