@@ -4,7 +4,7 @@ const studentsShared = {
   async getAllStudents(batch) {
     try {
      
-      if(batch==0)
+      if(batch==="All Batches")
       {
         let response = await axios.get(
           `http://localhost:3001/api/v1/students`

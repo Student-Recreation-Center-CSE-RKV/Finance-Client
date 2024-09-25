@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import TotalChartsByCategory from "./TotalChartsByCategory"
 import {
   CartesianGrid,
   XAxis,
@@ -16,95 +15,101 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-import studentsShared from "../shared/StudentsShared";
+import axios from "axios";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
-export default function TotalCharts({ data }) {
+export default function TotalCharts() {
   const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState([]);
-  const [selectedBatchChart, setSelectedBatchChart] = useState("feePaid");
-  const { categoryData } = studentsShared.preprocessDataByCategory(data);
-  const [categoryDataFetched, setCategoryDataFetched] = useState(categoryData)
+  const [categoryChartData, setCategoryChartData] = useState([]);
+  const [selectedBatchChart, setSelectedBatchChart] = useState("");
+  const [batchData, setBatchData] = useState(null);
+  const [selectedBatch, setSelectedBatch] = useState("0"); // Default batch is "0"
+  const [selectedCategoryChart, setSelectedCategoryChart] = useState(""); // Default category chart
+  const [categoryDataFetched, setCategoryDataFetched] = useState([]);
 
-
-  const { batchData } = studentsShared.preprocessDataByBatch(data);
-  
-
-  const [selectedValueOfDropDown, setSelectedValueOfDropDown] = useState(""); // state to hold selected value
-  const optionsArray = batchData.AllBatches; // array with items
-  
-  const handleChange = async (event) => {
-    const selectedBatch = event.target.value;
-    setSelectedValueOfDropDown(selectedBatch); // update selected value
-    setLoading(true); // start loading state
-    try {
-      const response = await studentsShared.getAllStudents(selectedBatch);
-      const data = studentsShared.preprocessDataByCategory(response.data);
-      
-      setCategoryDataFetched(data.categoryData);
-    } catch (error) {
-      console.error("Error fetching student data:", error);
-      // Optionally set an error state to display a message to the user
-    } finally {
-      setLoading(false); // end loading state
-      console.log("Revanth",categoryDataFetched)
-    }
-  };
-
-
-  // -- Batch-based data transformation --
-  const studentPaidData = Object.keys(batchData.feePaidByStudent).map((key) => ({
-    name: key,
-    value: batchData.feePaidByStudent[key],
-  }));
-  const scholarshipsData = Object.keys(batchData.scholarships).map((key) => ({
-    name: key,
-    value: batchData.scholarships[key],
-  }));
-  const loansAndOthersData = Object.keys(batchData.loansAndOthers).map((key) => ({
-    name: key,
-    value: batchData.loansAndOthers[key],
-  }));
-  const actualFeeData = Object.keys(batchData.actualPay).map((key) => ({
-    name: key,
-    value: batchData.actualPay[key],
-  }));
-  const remBalanceData = Object.keys(batchData.remBalance).map((key) => ({
-    name: key,
-    value: batchData.remBalance[key],
-  }));
 
   useEffect(() => {
-    const fetchData = async () => {
+    // Fetch batch data on load
+    const fetchBatchData = async () => {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay
-      setLoading(false);
-      handleBatchChartClick("feePaid"); // Set default chart on load
+      try {
+        const response = await axios.get("http://localhost:3001/api/v1/graph/batch");
+        setBatchData(response.data);
+        handleBatchChartClick("feePaid", response.data); // Default chart type
+      } catch (error) {
+        console.error("Error fetching batch data:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-
-    fetchData();
+    fetchBatchData();
   }, []);
 
-  const handleBatchChartClick = (chartType) => {
+  useEffect(() => {
+    // Fetch category data for the selected batch
+    const fetchCategoryData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:3001/api/v1/graph/category/${selectedBatch}`);
+        setCategoryDataFetched(response.data);
+        handleCategoryChartClick("totalPeople", response.data); // Initialize with totalPeople data
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCategoryData();
+  }, [selectedBatch]);
+
+  const handleBatchSelectionChange = async (event) => {
+    const batch = event.target.value;
+    setSelectedBatch(batch);
+  };
+
+  // Handle the batch chart selection
+  const handleBatchChartClick = (chartType, data = batchData) => {
     if (chartType !== selectedBatchChart) {
       setSelectedBatchChart(chartType);
-      
+
       let newData;
       switch (chartType) {
         case "feePaid":
-          newData = studentPaidData;
+          newData = data.totalScholarShipByBatch.map((item) => ({
+            name: item._id,
+            value: item.totalFeePaid,
+          }));
           break;
         case "scholarships":
-          newData = scholarshipsData;
+          newData = data.totalScholarShipByBatch.map((item) => ({
+            name: item._id,
+            value: item.totalScholarShip,
+          }));
           break;
         case "loans":
-          newData = loansAndOthersData;
+          newData = data.totalLoanByBatch.map((item) => ({
+            name: item._id,
+            value: item.totalLoan,
+          }));
           break;
-        case "tuitionFee":
-          newData = actualFeeData;
+        case "hostelFee":
+          newData = data.totalHostelfeeBybatch.map((item) => ({
+            name: item._id,
+            value: item.totalHostelFee,
+          }));
+          break;
+        case "tutionFee":
+          newData = data.totalTutionFeeByBatch.map((item) => ({
+            name: item._id,
+            value: item.totalTutionFee,
+          }));
           break;
         case "remainingBalance":
-          newData = remBalanceData;
+          newData = data.totalScholarShipByBatch.map((item) => ({
+            name: item._id,
+            value: item.totalRemainingBalance,
+          }));
           break;
         default:
           newData = [];
@@ -113,8 +118,68 @@ export default function TotalCharts({ data }) {
     }
   };
 
-  
+  // Handle the category chart selection
+  const handleCategoryChartClick = (chartType, data = categoryDataFetched) => {
+    if (chartType !== selectedCategoryChart) {
+      setSelectedCategoryChart(chartType);
 
+      let newData;
+      switch (chartType) {
+        case "totalPeople":
+          newData = data.totalPeople.map((item) => ({
+            name: item._id,
+            value: item.totalPeople,
+          }));
+          break;
+        case "totalFeePaid":
+          newData = data.feesBycategory.map((item) => ({
+            name: item._id,
+            value: item.totalFeePaid,
+          }));
+          break;
+        case "totalRemainingBalance":
+          newData = data.feesBycategory.map((item) => ({
+            name: item._id,
+            value: item.totalRemainingBalance,
+          }));
+          break;
+          case "gender":
+            newData = data.gender.map((item) => ({
+              name: item._id,
+              value: item.totalStudents,
+            }));
+            break;
+        case "hostelFee":
+          newData = data.totalHostelFee.map((item) => ({
+            name: item._id,
+            value: item.totalHostelFee,
+          }));
+          break;
+        case "tutionFee":
+          newData = data.totalTutionFee.map((item) => ({
+            name: item._id,
+            value: item.totalTutionFee,
+          }));
+          break;
+        case "loan":
+          newData = data.totalLoan.map((item) => ({
+            name: item._id,
+            value: item.totalLoan,
+          }));
+          break;
+
+
+        default:
+          newData = [];
+      }
+      setCategoryChartData(newData);
+    }
+  };
+
+  const batchOptions = batchData ? batchData.totalScholarShipByBatch.map((item) => item._id) : [];
+  batchOptions.push("0");
+
+  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
   return (
     <>
@@ -124,7 +189,8 @@ export default function TotalCharts({ data }) {
           <Typography variant="h6" style={{ marginLeft: "1rem" }}>Loading...</Typography>
         </div>
       ) : (
-        <div style={{ paddingLeft: "2rem" }}> {/* Left Padding Applied Here */}
+        <div style={{ paddingLeft: "2rem" }}>
+          {/* Batch-Based Details */}
           <Typography variant="h6">Batch-Based Details</Typography>
           <ToggleButtonGroup
             value={selectedBatchChart}
@@ -136,43 +202,33 @@ export default function TotalCharts({ data }) {
             <ToggleButton value="feePaid">Total Fee Paid</ToggleButton>
             <ToggleButton value="scholarships">Scholarships</ToggleButton>
             <ToggleButton value="loans">Loans</ToggleButton>
-            <ToggleButton value="tuitionFee">Tuition Fee</ToggleButton>
+            <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
+            <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
             <ToggleButton value="remainingBalance">Remaining Balance</ToggleButton>
           </ToggleButtonGroup>
-
-          
-         
 
           <ResponsiveContainer width="90%" height={400} style={{ margin: "3rem" }}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis
-                width={80} // Adjust the width as needed
-                tick={{ fontSize: 12, fill: "#000" }} // Adjust font size and color
-                tickLine={true} // Add tick lines for better visibility
-                axisLine={{ stroke: '#000', strokeWidth: 1 }} // Axis line color and width
-              />
+              <YAxis width={80} tick={{ fontSize: 12, fill: "#000" }} tickLine={true} axisLine={{ stroke: '#000', strokeWidth: 1 }} />
               <Tooltip />
               <Legend />
-              <Bar
-                dataKey="value"
-              />
+              <Bar dataKey="value" fill={colors[0]} />
             </BarChart>
           </ResponsiveContainer>
 
-
-          <Typography variant="h6">Category-Based Details</Typography>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Select Option</InputLabel>
+          {/* Dropdown for Batch Selection */}
+          <FormControl fullWidth style={{ marginTop: '20px', marginBottom: '16px' }}>
+            <InputLabel id="demo-simple-select-label">Select Batch</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedValueOfDropDown} // set the value from state
-              label="Select Option"
-              onChange={handleChange} // event handler for selection
+              value={selectedBatch}
+              label="Select Batch"
+              onChange={handleBatchSelectionChange}
             >
-              {optionsArray.map((item, index) => (
+              {batchOptions.map((item, index) => (
                 <MenuItem key={index} value={item}>
                   {item}
                 </MenuItem>
@@ -180,7 +236,34 @@ export default function TotalCharts({ data }) {
             </Select>
           </FormControl>
 
-          <TotalChartsByCategory data={categoryDataFetched}/>
+          {/* Category-Based Details */}
+          <Typography variant="h6">Category-Based Details</Typography>
+          <ToggleButtonGroup
+            value={selectedCategoryChart}
+            exclusive
+            onChange={(event, newAlignment) => handleCategoryChartClick(newAlignment)}
+            aria-label="category-based chart selection"
+            style={{ margin: "1rem" }}
+          >
+            <ToggleButton value="gender">Gender</ToggleButton>
+            <ToggleButton value="totalPeople">Total People</ToggleButton>
+            <ToggleButton value="totalFeePaid">Total Fee Paid</ToggleButton>
+            <ToggleButton value="totalRemainingBalance">Remaining Balance</ToggleButton>
+            <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
+            <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
+            <ToggleButton value="loan">Loan</ToggleButton>
+          </ToggleButtonGroup>
+
+          <ResponsiveContainer width="90%" height={400} style={{ margin: "3rem" }}>
+            <BarChart data={categoryChartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis width={80} tick={{ fontSize: 12, fill: "#000" }} tickLine={true} axisLine={{ stroke: '#000', strokeWidth: 1 }} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="value" fill={colors[1]} />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       )}
     </>

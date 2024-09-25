@@ -155,6 +155,11 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
                   label="Tution Fee"
                 />
                 <FormControlLabel
+                  value="hostelFee"
+                  control={<Radio />}
+                  label="Hostel Fee"
+                />
+                <FormControlLabel
                   value="scholarShip"
                   control={<Radio />}
                   label="ScholarShip"

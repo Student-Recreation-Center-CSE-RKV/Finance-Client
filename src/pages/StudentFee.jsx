@@ -33,7 +33,7 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
       try {
         // console.log(getStudentByIdApi + ID)
         const response = await axios.get(getStudentByIdApi + ID);
-        console.log(response);
+        console.log("Student Fee",response);
         if (response.status === 200) {
           changeData(response.data);
           snackbarUtil(
@@ -100,7 +100,12 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
             <CustomizedGrid data={data.student.student} />
             <StudentDetails data={data.student.student} />
             <FeeDetails data={data} />
-            <StudentChart data={data} />
+            
+            {
+              data?.tutionFee && data?.hostelFee && (
+                <StudentChart data={data} />
+              )
+            }
           </motion.div>
         </>
       )}

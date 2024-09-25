@@ -7,6 +7,9 @@ import LoginForm from "./pages/Login";
 import UploadPage from "./pages/Upload";
 import BankDue from "./pages/BankDue";
 import Home from "./pages/Home";
+import TotalCharts from "./components/TotalCharts";
+
+
 import "./App.css";
 function App() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -59,6 +62,12 @@ function App() {
               triggerSnackbar={showSnackbar}
               setMessage={setMessage}
             />
+          }
+        />
+        <Route
+          path="/Insights"
+          element={
+            <TotalCharts/>
           }
         />
         <Route path="/Auth/Login" element={<LoginForm />} />
