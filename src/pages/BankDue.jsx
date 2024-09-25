@@ -6,7 +6,7 @@ import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
 import Header from "../components/Header";
 import CustomizedGrid from "../components/CustomizedGrid";
-import FeeDetails from "../components/FeeDetails";
+import DueDetails from "../components/DueDetails";
 import { motion } from "framer-motion";
 export default function BankDue({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
@@ -34,6 +34,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
         console.log(response);
         if (response.status === 200) {
           changeData(response.data);
+          console.log("bankDue",response.data)
           snackbarUtil(
             setMessage,
             triggerSnackbar,
@@ -95,8 +96,8 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
             }}
           >
             <Header />
-            <CustomizedGrid data={data && data.due} />
-            <FeeDetails data={data.due} />
+            <CustomizedGrid data={data} />
+            <DueDetails data={data} />
           </motion.div>
         </>
       )}
