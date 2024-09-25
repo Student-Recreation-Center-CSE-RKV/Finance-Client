@@ -17,7 +17,9 @@ export default function FeeDetails({ data }) {
   return (
     <>
     
-    <TableContainer component={Paper} sx={{
+    {
+      data?.admissionFee && (
+        <TableContainer component={Paper} sx={{
           width: "68%",
           margin: "auto",
           marginTop: "1rem",
@@ -69,6 +71,9 @@ export default function FeeDetails({ data }) {
         </TableBody>
       </Table>
     </TableContainer>
+      )
+
+    }
 
 
       {

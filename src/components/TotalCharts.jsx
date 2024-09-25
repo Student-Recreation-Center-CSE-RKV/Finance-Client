@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { motion } from "framer-motion";
 
 export default function TotalCharts() {
   const [loading, setLoading] = useState(true);
@@ -189,7 +190,22 @@ export default function TotalCharts() {
           <Typography variant="h6" style={{ marginLeft: "1rem" }}>Loading...</Typography>
         </div>
       ) : (
-        <div style={{ paddingLeft: "2rem" }}>
+
+        <motion.div
+            initial={{ scale: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 100,
+            }}
+            animate={{
+              x: 0,
+              y: 0,
+              scale: 1,
+              rotate: 0,
+            }}
+          >
+            <div style={{ paddingLeft: "2rem" }}>
           {/* Batch-Based Details */}
           <Typography variant="h6">Batch-Based Details</Typography>
           <ToggleButtonGroup
@@ -265,6 +281,10 @@ export default function TotalCharts() {
             </BarChart>
           </ResponsiveContainer>
         </div>
+
+          </motion.div>
+
+        
       )}
     </>
   );

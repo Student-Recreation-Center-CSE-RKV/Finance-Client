@@ -52,33 +52,37 @@ export default function StudentChart({ data }) {
   return (
     <>
       {/* First Graph: Academic Data (without Tuition and Hostel Fees) */}
-      <ResponsiveContainer width="95%" height={400} style={{ margin: "3rem" }}>
-  <BarChart width={800} height={400} data={data && transformedAcademicData}>
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="Year" />
-    <YAxis />
-    <Tooltip />
-    <Legend />
-    {/* Replace Line with Bar */}
-    <Bar dataKey="Actual_Pay" fill="#82ca9d" />
-    <Bar dataKey="Scholarship" fill="#ff7300" />
-    <Bar dataKey="Loan" fill="#ffc658" />
-  </BarChart>
-</ResponsiveContainer>
-
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "3rem 0" }}>
+        <ResponsiveContainer width="85%" height={400} style={{ margin: "3rem" }}>
+          <BarChart width={800} height={400} data={data && transformedAcademicData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Year" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {/* Replace Line with Bar */}
+            <Bar dataKey="Actual_Pay" fill="#82ca9d" />
+            <Bar dataKey="Scholarship" fill="#ff7300" />
+            <Bar dataKey="Loan" fill="#ffc658" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
 
       {/* Second Graph: Tuition and Hostel Fees */}
-      <ResponsiveContainer width="95%" height={400} style={{ margin: "3rem" }}>
-        <BarChart width={800} height={400} data={data && transformedFeeData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Year" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="Tution_Fee_Paid_By_Student" fill="#8884d8" />
-          <Bar dataKey="Hostel_Fee_Paid_By_Student" fill="#82ca9d" />
-        </BarChart>
-      </ResponsiveContainer>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin: "3rem 0" }}>
+        <ResponsiveContainer width="85%" height={400}>
+          <BarChart width={800} height={400} data={data && transformedFeeData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="Year" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar dataKey="Tution_Fee_Paid_By_Student" fill="#8884d8" />
+            <Bar dataKey="Hostel_Fee_Paid_By_Student" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+
     </>
   );
 }
