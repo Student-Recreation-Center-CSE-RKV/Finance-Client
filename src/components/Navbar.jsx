@@ -229,6 +229,27 @@ export default function Demo() {
             </Link>
           ))}
         </List>
+        <List>
+          {["Insights"].map((text, index) => (
+            <Link
+              to={text === "Insights" ? "/Insights" : "/"}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                width: "100%",
+              }}
+            >
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index === 0 ? <LoginIcon /> : <LogoutIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          ))}
+        </List>
         <Divider />
         <List>
           {["Upload Excel"].map((text, index) => (
@@ -252,6 +273,8 @@ export default function Demo() {
           ))}
         </List>
         <Divider />
+        
+        
         <List>
           {["Login", "Sign Out"].map((text, index) => (
             <Link
@@ -273,6 +296,8 @@ export default function Demo() {
             </Link>
           ))}
         </List>
+
+        
       </Drawer>
       {/* <Box>
         <Outlet />

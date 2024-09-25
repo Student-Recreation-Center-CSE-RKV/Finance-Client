@@ -11,69 +11,15 @@ import {
   Box,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import DueDetails from "./DueDetails";
 
 export default function FeeDetails({ data }) {
   const location = useLocation();
+  console.log("FeeDetails",data);
   return (
     <>
-      <TableContainer
-        component={Paper}
-        sx={{
-          width: "68%",
-          margin: "auto",
-          marginTop: "1rem",
-          marginBottom: "3rem",
-        }}
-      >
-        <Typography
-          variant="h6"
-          align="center"
-          sx={{ marginTop: "1rem", marginBottom: "1rem", fontWeight: "bold" }}
-        >
-          Fee Details - Installments
-        </Typography>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#000" }}>
-              {" "}
-              {/* Black background for header */}
-              <TableCell
-                sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
-              >
-                Receipt No.
-              </TableCell>{" "}
-              {/* White text */}
-              <TableCell
-                sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
-              >
-                Amount
-              </TableCell>
-              <TableCell
-                sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
-              >
-                Date
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data && location.pathname === "/Student/fee"
-              ? data.tutionFee.installments.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{item.ReceiptNo}</TableCell>
-                    <TableCell align="center">{item.Amount}</TableCell>
-                    <TableCell align="center">{item.Date}</TableCell>
-                  </TableRow>
-                ))
-              : data.installments.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{item.ReceiptNo}</TableCell>
-                    <TableCell align="center">{item.Date}</TableCell>
-                    <TableCell align="center">{item.Amount}</TableCell>
-                  </TableRow>
-                ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    
+   <DueDetails data={data}/>
 
       {/* Conditional Scholarship Table */}
       {location.pathname === "/Student/fee" && (
