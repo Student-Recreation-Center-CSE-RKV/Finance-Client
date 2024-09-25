@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Carousel from './components/Carousel';
 import { Route, Routes } from "react-router-dom";
 import StudentFee from "./pages/StudentFee";
 import CustomizedSnackbar from "./components/Snackbar";
@@ -33,6 +37,8 @@ function App() {
   return (
     <div className="App">
       <Navbar />
+      <Header />
+      <Carousel />
       <CustomizedSnackbar
         open={openSnackbar}
         onClose={handleCloseSnackbar}
