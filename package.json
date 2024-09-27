@@ -17,19 +17,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
-<<<<<<< HEAD
-    "react-scripts": "^5.0.1",
     "recharts": "^2.12.7",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
-=======
     "react-scripts": "5.0.1",
     "react-slick": "^0.30.2",
     "react-swipeable-views": "^0.14.0",
-    "recharts": "^2.12.7",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4"
->>>>>>> 77766c0a47c35e480a86ff882c00f1f52a5c5d9d
   },
   "scripts": {
     "start": "react-scripts start",
