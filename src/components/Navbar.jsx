@@ -1,3 +1,8 @@
+
+
+
+
+
 import * as React from "react";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -25,6 +30,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { Link } from "react-router-dom";
+import Header from "../components/Header";
 const drawerWidth = 250;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -170,7 +176,7 @@ export default function Demo() {
               FO
             </Link>
           </Typography>
-
+          <Header /> 
           <Search sx={{ background: "#ADD8E6" }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -328,4 +334,4 @@ export default function Demo() {
       </Box> */}
     </Box>
   );
-}
+};

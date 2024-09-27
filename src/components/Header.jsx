@@ -1,30 +1,90 @@
-import React from "react";
-import Grid2 from "@mui/material/Grid2";
-import { Typography, Paper } from "@mui/material";
-import { styled } from "@mui/material/styles";
+// import React from 'react';
+// import AppBar from '@mui/material/AppBar';
+// import Toolbar from '@mui/material/Toolbar';
+// import Typography from '@mui/material/Typography';
+// import Box from '@mui/material/Box';
+// import Navbar from './Navbar';
 
-const Item = styled(Paper)(({ theme }) => ({
-  textAlign: "center",
-  boxShadow: "none",
-  margin: theme.spacing(2), // Add margin if you want space around the text
-}));
+// // Import the logo from the assets folder
+// import logo from '../assets/logo.png';
 
-export default function Header() {
-  return (
-    <>
-      <Grid2 container direction="column" alignItems={"center"}> 
-        <Grid2 container xs={5}>
-          <Item>
-            <Typography variant="h4" gutterBottom>
-              Rajiv Gandhi University of Knowledge Technologies
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-              RGUKT IIIT - RK Valley
-            </Typography>
-            <Typography variant="h6">STUDENT FEES DETAILS</Typography>
-          </Item>
-        </Grid2>
-      </Grid2>
-    </>
-  );
-}
+// const Header = () => {
+//     return (
+//         <>
+//             <AppBar
+//                 position="static"
+//                 sx={{
+//                     backgroundColor: '#003366', // Dark blue color
+//                 }}
+//             >
+//                 <Toolbar>
+//                     <Navbar />
+//                     {/* Logo */}
+//                     <Box
+//                         component="img"
+//                         src={logo}
+//                         alt="RGUKT Logo"
+//                         sx={{
+//                             height: '50px', // Adjust the height of the logo
+//                             marginRight: '20px',
+//                         }} />
+
+//                     {/* University Name */}
+//                     <Typography
+//                         variant="h6"
+//                         sx={{
+//                             flexGrow: 1,
+//                             fontWeight: 'bold',
+//                         }}
+//                     >
+//                         Rajiv Gandhi University of Knowledge Technologies , RKValley
+//                     </Typography>
+//                 </Toolbar>
+//             </AppBar>
+//         </>
+//     );
+// };
+
+// export default Header;
+// Header.jsx
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Navbar from './Navbar';
+import logo from '../assets/logo.png';
+
+const Header = () => {
+    return (
+        // <AppBar position="static" sx={{ backgroundColor: '#003366', width: '100%', maxWidth: '710px' }}>
+        <AppBar position="static" sx={{
+            width: '100%', maxWidth: '710px', backgroundColor: 'transparent', boxShadow: 'none', }}>
+            <Toolbar>
+                <Box
+                    component="img"
+                    src={logo}
+                    alt="RGUKT Logo"
+                    sx={{
+                        height: '50px',
+                        marginRight: '20px',
+                    }}
+                />
+                {/* <Navbar /> */}
+                <Typography
+                    variant="h6"
+                    sx={{
+                        flexGrow: 1,
+                        fontWeight: 'bold',
+                        // color: 'white',
+                        color:'black',
+                    }}
+                >
+                    Rajiv Gandhi University of Knowledge Technologies, RKValley
+                </Typography>
+            </Toolbar>
+        </AppBar>
+    );
+};
+
+export default Header;
