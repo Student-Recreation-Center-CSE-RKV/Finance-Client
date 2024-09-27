@@ -12,6 +12,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
+import InsightsIcon from '@mui/icons-material/Insights';
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -26,6 +27,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
@@ -235,10 +237,11 @@ export default function Demo() {
             </Link>
           ))}
         </List>
+      
         <List>
-          {["Insights"].map((text, index) => (
+          {["Add Due Number","Edit Student Details"].map((text, index) => (
             <Link
-              to={text === "Insights" ? "/Insights" : "/"}
+              to={text === "Add Due Number" ? "/add/due" : "/edit/student"}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -248,7 +251,28 @@ export default function Demo() {
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index === 0 ? <LoginIcon /> : <LogoutIcon />}
+                    {index === 0 ? <ModeEditOutlineIcon /> : <ModeEditOutlineIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          ))}
+        </List>
+        <List>
+          {["Insights"].map((text, index) => (
+            <Link
+              to={text === "Insights" ? "/Insights" : "/"}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                width: "100%",
+              }} 
+            >
+              <ListItem key={text} disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {index === 0 ? <InsightsIcon/> : <InsightsIcon/>}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>

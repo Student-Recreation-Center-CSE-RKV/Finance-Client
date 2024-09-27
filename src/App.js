@@ -9,6 +9,8 @@ import UploadPage from "./pages/Upload";
 import BankDue from "./pages/BankDue";
 import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
+import EditStudent from "./components/EditStudent";
+import AddDue from "./components/AddDue";
 
 
 import "./App.css";
@@ -53,6 +55,18 @@ function App() {
           path="/Bank/Due"
           element={
             <BankDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
+          path="/edit/student"
+          element={
+          <EditStudent triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
+          path="/add/due"
+          element={
+          <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
           }
         />
         <Route
