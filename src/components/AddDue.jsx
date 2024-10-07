@@ -20,7 +20,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { snackbarUtil } from "../utils/SnackbarUtils";
 
-const StudentEdit = ({setMessage,triggerSnackbar}) => {
+const StudentEdit = ({ setMessage, triggerSnackbar }) => {
   const [studentID, setStudentID] = useState("");
   const [studentData, setStudentData] = useState(null);
 
@@ -41,51 +41,52 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
       feeType: Yup.string().required("Fee Type is required"),
     }),
     onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append("Amount", values.amount);
+      formData.append("ReceiptNo", values.dueNumber);
+      formData.append("Date", values.date);
+      formData.append("file", values.proof);
+      formData.append("ID", studentID);
+
+      // Set the appropriate endpoint based on the selected fee type
+      const endpoint =
+        values.feeType === "tuition"
+          ? "http://localhost:3001/api/v1/update/student/tutionFee/addDue"
+          : "http://localhost:3001/api/v1/update/student/hostelFee/addDue";
+
       try {
-        const formData = new FormData();
-        formData.append("amount", values.amount);
-        formData.append("dueNumber", values.dueNumber);
-        formData.append("date", values.date);
-        formData.append("proof", values.proof);
-        formData.append("feeType", values.feeType);
-        let response;
-        if (values.feeType === "tuition") {
-            response = await axios.put(
-              `http://localhost:3001/api/v1/student/update/tuition/${studentID}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-          } else if (values.feeType === "hostel") {
-            response = await axios.put(
-              `http://localhost:3001/api/v1/student/update/hostel/${studentID}`,
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-          }
-  
-          console.log("Data updated successfully", response.data);
-          
-        } catch (error) {
-          console.error("Error updating data", error);
-          
-        }
+        const response = await axios.put(endpoint, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        snackbarUtil(
+          setMessage,
+          triggerSnackbar,
+          "Successfully updated data",
+          "success"
+        );
+
+        // Reset the form and clear the student data
+        formik.resetForm();
+        setStudentData(null);  // Clear student data to hide form
+        setStudentID("");  // Reset student ID field
+
+      } catch (error) {
+        snackbarUtil(
+          setMessage,
+          triggerSnackbar,
+          "Error updating data: " + (error.response?.data?.message || "Unknown error"),
+          "error"
+        );
+      }
     },
   });
 
   // Function to fetch student data
   const fetchStudentData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/api/v1/student/${studentID}`
-      );
+      const response = await axios.get(`http://localhost:3001/api/v1/student/${studentID}`);
       setStudentData(response.data.student);
       snackbarUtil(
         setMessage,
@@ -94,11 +95,10 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
         "success"
       );
     } catch (error) {
-      console.error("Error fetching student data", error);
       snackbarUtil(
         setMessage,
         triggerSnackbar,
-        "Student Not Found",
+        "Student Not Found: " + (error.response?.data?.message || "Unknown error"),
         "error"
       );
     }
@@ -133,16 +133,12 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
       {/* Display student data */}
       {studentData && (
         <TableContainer component={Paper} style={{ marginTop: "40px", width: "60%" }}>
-          <Typography
-            variant="h6"
-            align="center"
-            sx={{ marginTop: "20px", marginBottom: "20px", fontWeight: "bold" }}
-          >
+          <Typography variant="h6" align="center" sx={{ marginTop: "20px", marginBottom: "20px", fontWeight: "bold" }}>
             ADD NEW DUE DETAILS
           </Typography>
           <Table sx={{ minWidth: 650 }} aria-label="student details table">
             <TableBody>
-              {/* ID Field */}
+              {/* Student ID */}
               <TableRow hover>
                 <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>ID</TableCell>
                 <TableCell>
@@ -156,7 +152,7 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
                 </TableCell>
               </TableRow>
 
-              {/* Student Name Field */}
+              {/* Student Name */}
               <TableRow hover>
                 <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>Student Name</TableCell>
                 <TableCell>
@@ -231,16 +227,8 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
                       value={formik.values.feeType}
                       onChange={formik.handleChange}
                     >
-                      <FormControlLabel
-                        value="tuition"
-                        control={<Radio />}
-                        label="Tuition Fee"
-                      />
-                      <FormControlLabel
-                        value="hostel"
-                        control={<Radio />}
-                        label="Hostel Fee"
-                      />
+                      <FormControlLabel value="tuition" control={<Radio />} label="Tuition Fee" />
+                      <FormControlLabel value="hostel" control={<Radio />} label="Hostel Fee" />
                     </RadioGroup>
                     {formik.touched.feeType && formik.errors.feeType && (
                       <Typography color="error" variant="body2">
@@ -255,18 +243,11 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
               <TableRow hover>
                 <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>Upload Proof</TableCell>
                 <TableCell>
-                  <Button variant="contained" component="label">
-                    Choose Proof
-                    <input
-                      type="file"
-                      hidden
-                      accept="image/*"
-                      onChange={handleFileChange}
-                    />
-                  </Button>
-                  {formik.values.proof && (
-                    <Typography variant="body2">{formik.values.proof.name}</Typography>
-                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
                   {formik.touched.proof && formik.errors.proof && (
                     <Typography color="error" variant="body2">
                       {formik.errors.proof}
@@ -276,27 +257,16 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
               </TableRow>
             </TableBody>
           </Table>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={formik.handleSubmit}
+            style={{ marginTop: "20px", marginBottom: "20px" }}
+          >
+            Submit
+          </Button>
         </TableContainer>
       )}
-
-      {/* Submit Button - enabled only if the form is valid and dirty */}
-      <Button
-        variant="contained"
-        onClick={formik.handleSubmit}
-        sx={{
-            marginTop: "20px",
-            marginBottom: "40px",
-            backgroundColor: "green", // Set the button's background color to green
-            "&:hover": {
-            backgroundColor: "darkgreen", // Change background color on hover
-            },
-            color: "white", // Set the text color to white
-            textTransform: "none", // Disable uppercase transformation
-        }}
-        disabled={!(formik.isValid && formik.dirty)} // Enable only if the form is valid and dirty
-      >
-        Submit
-      </Button>
     </div>
   );
 };

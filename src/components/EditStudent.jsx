@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
+import Search from "../components/Search"
+import VerifyTextField from "../utils/VeirfyTextField"
 import {
   TextField,
   Button,
@@ -18,10 +20,23 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
   const [studentData, setStudentData] = useState(null);
   const [editData, setEditData] = useState(null);
   const [isModified, setIsModified] = useState(false); // Track if any changes were made
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   // Function to fetch student data
   const fetchStudentData = async () => {
+    if(!VerifyTextField.textFieldCheck(studentID)) {
+      setIsError(true);
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        "Enter ID",
+        "error"
+      );
+      return;
+    }
     try {
+      setIsLoading(true);
+      setIsError(false);
       const response = await axios.get(
         `http://localhost:3001/api/v1/student/${studentID}`
       );
@@ -34,17 +49,19 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
         "Successfully Fetched Data",
         "success"
       );
+      setIsLoading(false)
     } catch (error) {
       console.error("Error fetching student data", error);
       snackbarUtil(
         setMessage,
         triggerSnackbar,
-        "Student Not Found",
+        error.message,
         "error"
       );
+      setIsLoading(false)
     }
   };
-
+  
   // Function to handle field edits and track changes
   const handleEdit = (field, value) => {
     setEditData({ ...editData, [field]: value });
@@ -63,28 +80,53 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
   // Function to save the updated student data
   const saveStudentData = async () => {
     try {
-      console.log(editData);
-      alert("Student data updated successfully!");
+      setIsLoading(true);
+      
+      // Make a PUT request to update the student data
+      const response = await axios.put(
+        `http://localhost:3001/api/v1/update/student/${studentID}`,  // Use student ID in the URL
+        editData // Send only the updated data
+      );
+  
+      // Handle success
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        "Student data updated successfully!",
+        "success"
+      );
       setIsModified(false); // Reset change tracking after saving
+      setIsLoading(false); // Set loading state to false
     } catch (error) {
       console.error("Error updating student data", error);
+  
+      // Handle error based on error response
+      let errorMessage = "Error updating student data";
+  
+      // Check if the server provided a specific error message
+      if (error.response && error.response.data && error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;  // General error message
+      }
+  
+      // Show the error in the snackbar with a red color and different message
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        `Update failed: ${errorMessage}`,
+        "error"
+      );
+      setIsLoading(false); // Set loading state to false
     }
   };
-
+  
+  // { getData, setID, ID, isLoading, isError }
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {/* Search field and button */}
       <div style={{ display: "flex", alignItems: "center", marginTop: "20px", gap: "10px" }}>
-        <TextField
-          label="Enter Student ID"
-          value={studentID}
-          onChange={(e) => setStudentID(e.target.value)}
-          variant="outlined"
-          size="small"
-        />
-        <Button variant="contained" color="primary" onClick={fetchStudentData}>
-          Fetch Data
-        </Button>
+        <Search getData = {fetchStudentData} setID={setStudentID} ID={studentID} isLoading={isLoading} isError={isError}/>
       </div>
 
       {/* Display and edit student data */}
@@ -105,7 +147,7 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
                 { label: "Gender", value: editData.Gender, field: "Gender" },
                 { label: "Category", value: editData.Category, field: "Category" },
                 { label: "Father's Name", value: editData.FatherName, field: "FatherName" },
-                { label: "BATCH", value: editData.BATCH, field: "BATCH" },
+                
               ].map((field, index) => (
                 <TableRow hover key={index}>
                   <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>{field.label}</TableCell>

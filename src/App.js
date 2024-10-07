@@ -11,7 +11,7 @@ import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
 import EditStudent from "./components/EditStudent";
 import AddDue from "./components/AddDue";
-
+import Navbar from "./components/Navbar"
 
 import "./App.css";
 function App() {
@@ -40,6 +40,7 @@ function App() {
         onClose={handleCloseSnackbar}
         message={message}
       />
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
