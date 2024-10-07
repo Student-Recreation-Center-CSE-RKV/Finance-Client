@@ -6,7 +6,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useLocation } from "react-router-dom";
 export default function Search({ getData, setID, ID, isLoading, isError }) {
   const location = useLocation();
-
+console.log("Revanth",location.pathname)
   return (
     <div
       style={{
@@ -22,7 +22,7 @@ export default function Search({ getData, setID, ID, isLoading, isError }) {
         error={isError}
         id="outlined-textarea"
         label={
-          location.pathname === "/Student/fee" ? "Enter ID" : "Enter Due No."
+          (location.pathname === "/Student/fee" || location.pathname ===  "/edit/student") ? "Enter ID" : "Enter Due No." 
         }
         placeholder={location.pathname === "/" ? "RXXXXXX" : "XXXXXXXXX"}
         onChange={(e) => {

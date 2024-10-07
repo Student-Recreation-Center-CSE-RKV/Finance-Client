@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
+import Search from "../components/Search"
+import VerifyTextField from "../utils/VeirfyTextField"
 import {
   TextField,
   Button,
@@ -18,10 +20,23 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
   const [studentData, setStudentData] = useState(null);
   const [editData, setEditData] = useState(null);
   const [isModified, setIsModified] = useState(false); // Track if any changes were made
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   // Function to fetch student data
   const fetchStudentData = async () => {
+    if(!VerifyTextField.textFieldCheck(studentID)) {
+      setIsError(true);
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        "Enter ID",
+        "error"
+      );
+      return;
+    }
     try {
+      setIsLoading(true);
+      setIsError(false);
       const response = await axios.get(
         `http://localhost:3001/api/v1/student/${studentID}`
       );
@@ -34,17 +49,19 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
         "Successfully Fetched Data",
         "success"
       );
+      setIsLoading(false)
     } catch (error) {
       console.error("Error fetching student data", error);
       snackbarUtil(
         setMessage,
         triggerSnackbar,
-        "Student Not Found",
+        error.message,
         "error"
       );
+      setIsLoading(false)
     }
   };
-
+  
   // Function to handle field edits and track changes
   const handleEdit = (field, value) => {
     setEditData({ ...editData, [field]: value });
@@ -70,21 +87,12 @@ const StudentEdit = ({setMessage,triggerSnackbar}) => {
       console.error("Error updating student data", error);
     }
   };
-
+  // { getData, setID, ID, isLoading, isError }
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       {/* Search field and button */}
       <div style={{ display: "flex", alignItems: "center", marginTop: "20px", gap: "10px" }}>
-        <TextField
-          label="Enter Student ID"
-          value={studentID}
-          onChange={(e) => setStudentID(e.target.value)}
-          variant="outlined"
-          size="small"
-        />
-        <Button variant="contained" color="primary" onClick={fetchStudentData}>
-          Fetch Data
-        </Button>
+        <Search getData = {fetchStudentData} setID={setStudentID} ID={studentID} isLoading={isLoading} isError={isError}/>
       </div>
 
       {/* Display and edit student data */}
