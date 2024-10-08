@@ -1,8 +1,3 @@
-
-
-
-
-
 import * as React from "react";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -28,7 +23,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 const drawerWidth = 250;
@@ -260,9 +257,9 @@ export default function Demo() {
           ))}
         </List>
         <List>
-          {["Insights"].map((text, index) => (
+          {["Insights","See All Added Dues"].map((text, index) => (
             <Link
-              to={text === "Insights" ? "/Insights" : "/"}
+              to={text === "Insights" ? "/Insights" : "/see/added/dues"}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -272,7 +269,7 @@ export default function Demo() {
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index === 0 ? <InsightsIcon/> : <InsightsIcon/>}
+                    {index === 0 ? <InsightsIcon/> : <RemoveRedEyeTwoToneIcon/>}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>

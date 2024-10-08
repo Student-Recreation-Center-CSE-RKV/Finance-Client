@@ -11,7 +11,8 @@ import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
 import EditStudent from "./components/EditStudent";
 import AddDue from "./components/AddDue";
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar";
+import SeeAddedDues from "./components/SeeAddedDues";
 
 import "./App.css";
 function App() {
@@ -56,6 +57,12 @@ function App() {
           path="/Bank/Due"
           element={
             <BankDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
+          path="/see/added/dues"
+          element={
+            <SeeAddedDues triggerSnackbar={showSnackbar} setMessage={setMessage} />
           }
         />
         <Route
