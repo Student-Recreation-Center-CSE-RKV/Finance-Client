@@ -170,6 +170,57 @@ export default function DueDetails({ data }) {
                     </Table>
                 </TableContainer>
             )}
+
+
+            {/* Other Fee Section */}
+            {data?.otherFee && (
+                <TableContainer
+                    component={Paper}
+                    sx={{
+                        width: "68%",
+                        margin: "auto",
+                        marginTop: "1rem",
+                        marginBottom: "3rem",
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        align="center"
+                        sx={{ marginTop: "1rem", marginBottom: "1rem", fontWeight: "bold" }}
+                    >
+                        Other Fees - Installments
+                    </Typography>
+                    <Table>
+                        <TableHead>
+                            <TableRow sx={{ backgroundColor: "#000" }}>
+                                <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>
+                                    Receipt No.
+                                </TableCell>
+                                <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>
+                                    Amount
+                                </TableCell>
+                                <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>
+                                    Date
+                                </TableCell>
+                                <TableCell sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}>
+                                    Category
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data.otherFee.installments && data.otherFee.installments?.map((item, index) => (
+                                <TableRow key={index}>
+                                    <TableCell align="center">{item.ReceiptNo}</TableCell>
+                                    <TableCell align="center">{item.Amount}</TableCell>
+                                    <TableCell align="center">{item.Date}</TableCell>
+                                    <TableCell align="center">{item.category}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )}
+
         </>
     );
 }
