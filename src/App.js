@@ -13,6 +13,7 @@ import EditStudent from "./components/EditStudent";
 import AddDue from "./components/AddDue";
 import Navbar from "./components/Navbar";
 import SeeAddedDues from "./components/SeeAddedDues";
+// import ConsentForm from "./components/ConsentForm";
 
 import "./App.css";
 function App() {
@@ -77,6 +78,7 @@ function App() {
           <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
           }
         />
+        
         <Route
           path="/Upload"
           element={

@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import {
   Table,
   TableBody,
@@ -12,13 +12,31 @@ import {
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import DueDetails from "./DueDetails";
+import ConsentForm from "./ConsentForm";
 
 export default function FeeDetails({ data }) {
   const location = useLocation();
   console.log("FeeDetails",data);
+  const [isBalanceZero, setIsBalanceZero] = useState(false);
+
+  // Check if the remaining balance is zero or less than zero
+  const checkBalance = () => {
+    if (data && data.sch && data.sch.RemainingBalance <= 0) {
+      setIsBalanceZero(true);
+    } else {
+      setIsBalanceZero(false); // reset if balance is above zero
+    }
+  };
+
+
+  useEffect(() => {
+    checkBalance(); // Check balance whenever data changes
+  }, [data]);
+
+
+
   return (
     <>
-    
    <DueDetails data={data}/>
 
       {/* Conditional Scholarship Table */}
@@ -160,6 +178,10 @@ export default function FeeDetails({ data }) {
               </TableBody>
             </Table>
           </TableContainer>
+          <Box sx={{ textAlign: "center", marginTop: "2rem" }}>
+            <ConsentForm studentName={data.student.student.StudentName} studentId={data.student.student.ID}  isDisabled={!isBalanceZero}/>
+          </Box>
+          
         </Box>
       )}
     </>
