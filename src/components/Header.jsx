@@ -57,7 +57,7 @@ import logo from '../assets/logo.png';
 
 const Header = () => {
     return (
-        // <AppBar position="static" sx={{ backgroundColor: '#003366', width: '100%', maxWidth: '710px' }}>
+        
         <AppBar position="static" sx={{
             width: '100%', maxWidth: '710px', backgroundColor: 'transparent', boxShadow: 'none', }}>
             <Toolbar>
