@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Navbar from './Navbar';
+import Navbar from './Navbar';
 import logo from '../assets/logo.png';
 
 const Header = () => {
@@ -20,9 +21,11 @@ const Header = () => {
                     alt="RGUKT Logo"
                     sx={{
                         height: '50px',
+                        height: '50px',
                         marginRight: '20px',
                     }}
                 />
+                {/* <Navbar /> */}
                 {/* <Navbar /> */}
                 <Typography
                     variant="h6"
@@ -33,6 +36,7 @@ const Header = () => {
                         // color:'black',
                     }}
                 >
+                    Rajiv Gandhi University of Knowledge Technologies, RKValley
                     Rajiv Gandhi University of Knowledge Technologies, RKValley
                 </Typography>
             </Toolbar>

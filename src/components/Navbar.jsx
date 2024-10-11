@@ -13,6 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import InsightsIcon from '@mui/icons-material/Insights';
+import InsightsIcon from '@mui/icons-material/Insights';
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -28,7 +29,10 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useState } from 'react';
@@ -249,9 +253,9 @@ export default function Demo() {
             </Link>
           ))}
         </List>
-
+      
         <List>
-          {["Add Due Number", "Edit Student Details"].map((text, index) => (
+          {["Add Due Number","Edit Student Details"].map((text, index) => (
             <Link
               to={text === "Add Due Number" ? "/add/due" : "/edit/student"}
               style={{
@@ -272,19 +276,19 @@ export default function Demo() {
           ))}
         </List>
         <List>
-          {["Insights"].map((text, index) => (
+          {["Insights","See All Added Dues"].map((text, index) => (
             <Link
-              to={text === "Insights" ? "/Insights" : "/"}
+              to={text === "Insights" ? "/Insights" : "/see/added/dues"}
               style={{
                 textDecoration: "none",
                 color: "black",
                 width: "100%",
-              }}
+              }} 
             >
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index === 0 ? <InsightsIcon /> : <InsightsIcon />}
+                    {index === 0 ? <InsightsIcon/> : <RemoveRedEyeTwoToneIcon/>}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -292,6 +296,7 @@ export default function Demo() {
             </Link>
           ))}
         </List>
+       
         <Divider />
         <List>
           {["Upload Excel"].map((text, index) => (

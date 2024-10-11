@@ -58,6 +58,13 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       let temp = fileUtils.typeOfFile(typeOfExcel);
       let newUrl = url + temp;
       console.log(newUrl);
+
+       // Logic for when fileType is "msi"
+    if (fileType === "msi") {
+     
+      newUrl =url+ "/upload/msi"; // Change as necessary based on your API endpoint
+    }
+
       const response = await axios.post(newUrl, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

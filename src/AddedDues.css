@@ -1,0 +1,17 @@
+.heading {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    padding: 10px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  
+  /* Hover effect with lighting */
+  .heading:hover {
+    color: #007BFF; /* Changes text color on hover */
+    text-shadow: 0 0 10px #007BFF, 0 0 20px #007BFF, 0 0 30px #007BFF;
+  }
+  .bold-text {
+    font-weight: bold;
+  }
+  

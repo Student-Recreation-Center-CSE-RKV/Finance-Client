@@ -71,6 +71,7 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
       snackbarUtil(setMessage, triggerSnackbar, "ID required", "error");
     }
   };
+ 
   return (
     <>
       <Search

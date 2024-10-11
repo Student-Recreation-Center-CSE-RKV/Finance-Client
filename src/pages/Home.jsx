@@ -19,6 +19,7 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 }));
 export default function Home() {
 
+
   return (
     <div>
       <Carousel />

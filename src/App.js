@@ -1,9 +1,6 @@
 import { useState } from "react";
-import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Carousel from './components/Carousel';
 import { Route, Routes } from "react-router-dom";
 import StudentFee from "./pages/StudentFee";
 import CustomizedSnackbar from "./components/Snackbar";
@@ -12,7 +9,11 @@ import UploadPage from "./pages/Upload";
 import BankDue from "./pages/BankDue";
 import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
-
+import EditStudent from "./components/EditStudent";
+import AddDue from "./components/AddDue";
+import Navbar from "./components/Navbar";
+import SeeAddedDues from "./components/SeeAddedDues";
+// import ConsentForm from "./components/ConsentForm";
 
 import "./App.css";
 function App() {
@@ -44,6 +45,7 @@ function App() {
         onClose={handleCloseSnackbar}
         message={message}
       />
+      <Navbar/>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route
@@ -61,6 +63,25 @@ function App() {
             <BankDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
           }
         />
+        <Route
+          path="/see/added/dues"
+          element={
+            <SeeAddedDues triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
+          path="/edit/student"
+          element={
+          <EditStudent triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        <Route
+          path="/add/due"
+          element={
+          <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+          }
+        />
+        
         <Route
           path="/Upload"
           element={
