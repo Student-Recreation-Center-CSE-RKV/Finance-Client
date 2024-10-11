@@ -13,7 +13,6 @@ import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import InsightsIcon from '@mui/icons-material/Insights';
-import InsightsIcon from '@mui/icons-material/Insights';
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";

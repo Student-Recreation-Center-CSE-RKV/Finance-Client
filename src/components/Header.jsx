@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Navbar from './Navbar';
-import Navbar from './Navbar';
 import logo from '../assets/logo.png';
 
 const Header = () => {
@@ -37,7 +36,7 @@ const Header = () => {
                     }}
                 >
                     Rajiv Gandhi University of Knowledge Technologies, RKValley
-                    Rajiv Gandhi University of Knowledge Technologies, RKValley
+                    
                 </Typography>
             </Toolbar>
         </AppBar>
