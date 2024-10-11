@@ -1,42 +1,30 @@
 import React, { useEffect, useState } from "react";
+import Carousel from '../components/Carousel';
+import Sections from "../components/Sections";
+import Footer from "../components/Footer";
+import FO_overview from "../components/FO_overview";
+import { styled, Box, Accordion } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
-import Loader from "../components/Loader";
-import { motion } from "framer-motion";
+const MainContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh',
+  backgroundColor: '#f0f4f8', // Light background color
+}));
+
+const ContentContainer = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+}));
 export default function Home() {
-<<<<<<< Updated upstream
-=======
-  const [students, setStudents] = useState(null);
-  const [fadeIn, setFadeIn] = useState(false);
-  useEffect(() => {
-    getAllStudents();
-  },[]);
 
-  const getAllStudents = async () => {
-    try {
-      const res = await studentsShared.getALlStudents();
-
-      // Check if res.data exists and is an array
-      if (res && res.data && Array.isArray(res.data)) {
-        setStudents(res.data);
-
-        // Defensive check before logging sch.academicYears
-        if (res.data[0]?.sch?.academicYears) {
-          console.log(res.data[0].sch.academicYears);
-        } else {
-          console.error("sch or academicYears is undefined.");
-        }
-      } else {
-        console.error("Invalid data structure:", res);
-      }
-    } catch (error) {
-      console.error("Error fetching students data:", error);
-    }
-  };
-
->>>>>>> Stashed changes
   return (
-    <>
-      
-    </>
+    <div>
+      <Carousel />
+      <Sections />
+      <FO_overview />
+      <Footer />
+    </div>
   );
 }
