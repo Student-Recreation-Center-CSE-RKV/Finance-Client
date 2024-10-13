@@ -2,7 +2,7 @@
 // import { Box, MobileStepper, Button } from '@mui/material';
 // // import SwipeableViews from 'react-swipeable-views';
 // import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-// import slide1 from '../assets/slide1.png'; 
+// import slide1 from '../assets/slide1.png';
 // import slide2 from '../assets/slide2.png';
 // import slide3 from '../assets/slide3.png';
 // import slide4 from '../assets/slide4.png';
@@ -109,9 +109,9 @@
 
 // export default Carousel;
 
-export default function Carousel(){
-    return(
-        <div></div>
-    )
-
+export default function Carousel() {
+	return (
+		// eslint-disable-next-line react/react-in-jsx-scope
+		<div></div>
+	)
 }
