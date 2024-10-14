@@ -1,117 +1,164 @@
-// import React, { useState, useEffect } from 'react';
-// import { Box, MobileStepper, Button } from '@mui/material';
-// // import SwipeableViews from 'react-swipeable-views';
-// import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-// import slide1 from '../assets/slide1.png'; 
-// import slide2 from '../assets/slide2.png';
-// import slide3 from '../assets/slide3.png';
-// import slide4 from '../assets/slide4.png';
 
-// import { div } from "framer-motion/client"
 
-// const images = [
-//     {
-//         label: 'Slide 1',
-//         imgPath: slide1,
-//     },
-//     {
-//         label: 'Slide 2',
-//         imgPath: slide2,
-//     },
-//     {
-//         label: 'Slide 3',
-//         imgPath: slide3,
-//     },
-//     {
-//         label: 'Slide 4',
-//         imgPath: slide4,
-//     },
-// ];
 
-// const Carousel = () => {
-//     const [activeStep, setActiveStep] = useState(0);
-//     const maxSteps = images.length;
 
-//     // Automatic sliding effect
-//     useEffect(() => {
-//         const timer = setInterval(() => {
-//             setActiveStep((prevActiveStep) =>
-//                 prevActiveStep === maxSteps - 1 ? 0 : prevActiveStep + 1
-//             );
-//         }, 3000); // Change slide every 3 seconds
 
-//         return () => {
-//             clearInterval(timer); // Cleanup the interval on component unmount
-//         };
-//     }, [maxSteps]);
 
-//     const handleNext = () => {
-//         setActiveStep((prevActiveStep) =>
-//             prevActiveStep === maxSteps - 1 ? 0 : prevActiveStep + 1
-//         );
-//     };
+import React, { useState } from 'react';
+import Slider from 'react-slick';
+import { Box, Typography, Paper, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import slideImage1 from '../assets/slide1.jpg';
+import slideImage2 from '../assets/slide2.jpg';
+import slideImage3 from '../assets/slide3.jpg';
+import slideImage4 from '../assets/slide4.jpg';
+import '../index.css';
 
-//     const handleBack = () => {
-//         setActiveStep((prevActiveStep) =>
-//             prevActiveStep === 0 ? maxSteps - 1 : prevActiveStep - 1
-//         );
-//     };
+// Notification Data
+const notifications = [
+    {
+        id: 1,
+        title: "System Update",
+        message: "A new system update is available. Please update your device.",
+    },
+    {
+        id: 2,
+        title: "New Message",
+        message: "You have received a new message from John.",
+    },
+    {
+        id: 3,
+        title: "Reminder",
+        message: "Don't forget the team meeting at 3 PM today.",
+    },
+];
 
-//     const handleStepChange = (step) => {
-//         setActiveStep(step);
-//     };
+// Custom Arrows (without text)
+const CustomPrevArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <IconButton
+            sx={{
+                position: 'absolute',
+                left: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 1,
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                color: 'white',
+                '&:hover': {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                },
+            }}
+            onClick={onClick}
+        >
+            &lt;
+        </IconButton>
+    );
+};
 
-//     return (
-//         <Box sx={{ flexGrow: 1, maxWidth: '100%', overflow: 'hidden' }}>
-//             <SwipeableViews
-//                 axis="x"
-//                 index={activeStep}
-//                 onChangeIndex={handleStepChange}
-//                 enableMouseEvents
-//             >
-//                 {images.map((step) => (
-//                     <Box
-//                         key={step.label}
-//                         component="img"
-//                         sx={{
-//                             display: 'block',
-//                             width: '100vw',
-//                             height: '340px',
-//                             objectFit: 'cover',
-//                         }}
-//                         src={step.imgPath}
-//                         alt={step.label}
-//                     />
-//                 ))}
-//             </SwipeableViews>
+const CustomNextArrow = (props) => {
+    const { onClick } = props;
+    return (
+        <IconButton
+            sx={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 1,
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                color: 'white',
+                '&:hover': {
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                },
+            }}
+            onClick={onClick}
+        >
+            &gt;
+        </IconButton>
+    );
+};
 
-//             <MobileStepper
-//                 steps={maxSteps}
-//                 position="static"
-//                 activeStep={activeStep}
-//                 nextButton={
-//                     <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-//                         Next
-//                         <KeyboardArrowRight />
-//                     </Button>
-//                 }
-//                 backButton={
-//                     <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-//                         <KeyboardArrowLeft />
-//                         Back
-//                     </Button>
-//                 }
-//                 sx={{ justifyContent: 'space-between', width: '100vw', background: 'transparent' }}
-//             />
-//         </Box>
-//     );
-// };
+// Carousel Component
+const Carousel = () => {
+    const [visibleNotifications, setVisibleNotifications] = useState(notifications);
 
-// export default Carousel;
+    const settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        arrows: true,
+        fade: true,
+        prevArrow: <CustomPrevArrow />,
+        nextArrow: <CustomNextArrow />,
+    };
 
-export default function Carousel(){
-    return(
-        <div></div>
-    )
+    const slideStyle = {
+        width: '100%',
+        height: '304px',
+        objectFit: 'cover',
+    };
 
-}
+    const notificationStyle = {
+        position: 'absolute',
+        top: '10px',
+        right: '10px',
+        zIndex: 10,
+        width: '300px',
+        backgroundColor: '#f0f8ff',
+        borderRadius: '8px',
+        padding: '10px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    };
+
+
+    const closeNotification = (id) => {
+        setVisibleNotifications(visibleNotifications.filter((notification) => notification.id !== id));
+    };
+
+    return (
+        <Box sx={{ position: 'relative', margin: 0, padding: 0, width: '100%', overflow: 'hidden', backgroundColor: 'black' }}>
+            <Slider {...settings}>
+                <Box>
+                    <img src={slideImage1} alt="Slide 1" style={slideStyle} />
+                </Box>
+                <Box>
+                    <img src={slideImage2} alt="Slide 2" style={slideStyle} />
+                </Box>
+                <Box>
+                    <img src={slideImage3} alt="Slide 3" style={slideStyle} />
+                </Box>
+                <Box>
+                    <img src={slideImage4} alt="Slide 4" style={slideStyle} />
+                </Box>
+            </Slider>
+            {visibleNotifications.map((notification) => (
+                <Paper key={notification.id} elevation={4} sx={notificationStyle}>
+                    <Typography variant="h6" sx={{ color: '#1e90ff', fontWeight: 'bold' }}>
+                        {notification.title}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#333', marginBottom: '10px' }}>
+                        {notification.message}
+                    </Typography>
+                    <IconButton
+                        aria-label="close"
+                        size="small"
+                        onClick={() => closeNotification(notification.id)}
+                        sx={{ alignSelf: 'flex-end', marginTop: '-15px' }}
+                    >
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                </Paper>
+            ))}
+        </Box>
+    );
+};
+
+export default Carousel;

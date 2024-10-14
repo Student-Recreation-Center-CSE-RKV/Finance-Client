@@ -37,6 +37,9 @@ function App() {
 
   return (
     <div className="App">
+      {/* <Navbar /> */}
+      {/* <Header />
+      <Carousel />  */}
       <CustomizedSnackbar
         open={openSnackbar}
         onClose={handleCloseSnackbar}
