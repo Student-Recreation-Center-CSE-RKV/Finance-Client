@@ -1,8 +1,3 @@
-
-
-
-
-
 import * as React from "react";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -34,7 +29,6 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
-import { useState } from 'react';
 const drawerWidth = 250;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -139,9 +133,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-
-
 export default function Demo() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -157,25 +148,18 @@ export default function Demo() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="static" open={open} sx={{ backgroundColor: "#034f84" }}>
+      <AppBar position="static" open={open}>
         <Toolbar>
-
           <IconButton
+            color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={[
               {
-                color: 'black',           // Set the icon color (can be anything you prefer)
-                backgroundColor: 'white', // White background circle
-                borderRadius: '50%',      // Circular shape
-                padding: '8px',           // Padding to make the circle larger
                 mr: 2,
-                '&:hover': {
-                  backgroundColor: 'lightgray', // Change background on hover for a nice effect
-                },
               },
-              open && { display: "none" },  // Conditionally hide when open
+              open && { display: "none" },
             ]}
           >
             <AccountBalanceIcon />
@@ -186,13 +170,12 @@ export default function Demo() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            <Link to={"/"} style={{ textDecoration: "none", color: "white" }}>
+            <Link to={"/"} style={{ textDecoration: "none" }}>
               FO
             </Link>
           </Typography>
-          <Header />
-          {/* <Search sx={{ background: "#ADD8E6" }}> */}
-          <Search sx={{ background: "white" }}>
+          <Header /> 
+          <Search sx={{ background: "#ADD8E6" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -319,8 +302,8 @@ export default function Demo() {
           ))}
         </List>
         <Divider />
-
-
+        
+        
         <List>
           {["Login", "Sign Out"].map((text, index) => (
             <Link
@@ -343,7 +326,7 @@ export default function Demo() {
           ))}
         </List>
 
-
+        
       </Drawer>
       {/* <Box>
         <Outlet />
