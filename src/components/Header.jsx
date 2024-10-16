@@ -24,8 +24,6 @@ const Header = () => {
                         marginRight: '20px',
                     }}
                 />
-                {/* <Navbar /> */}
-                {/* <Navbar /> */}
                 <Typography
                     variant="h6"
                     sx={{

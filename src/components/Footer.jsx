@@ -10,11 +10,18 @@ const Footer = () => {
                 textAlign: 'center',
                 padding: '20px',
                 width: '100%',
-                height: '100px',
-                marginTop: 'auto', // Ensures the footer stays at the bottom of the content
+                height: '140px',
+                marginTop: 'auto', 
+                marginBottom:'auto',// Ensures the footer stays at the bottom of the content
                 // boxShadow: '0px -2px 5px rgba(0, 0, 0, 0.1)',
             }}
         >
+            <Typography variant="body2" sx={{ color: 'white' }}>
+                For more information or to request assistance, please contact the Finance Office at{' '}
+                <a href="mailto:finance@college.com" style={{ color: '#1e90ff', textDecoration: 'none' }}>
+                    finance@college.com
+                </a>.
+            </Typography>
             <Typography variant="body1" color="textSecondary">
                 Made by
             </Typography>
