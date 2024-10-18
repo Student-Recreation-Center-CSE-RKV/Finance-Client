@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Search from "../components/Search";
-import Header from "../components/Header2";
+import Header from "../components/Header";
 import StudentDetails from "../components/StudentDetails";
 import FeeDetails from "../components/FeeDetails";
 import CustomizedGrid from "../components/CustomizedGrid";

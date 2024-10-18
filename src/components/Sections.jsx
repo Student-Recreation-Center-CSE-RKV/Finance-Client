@@ -1,31 +1,16 @@
 // Sections.jsx
 import React from 'react';
 import { Box, Typography, Paper, Grid } from '@mui/material';
-
+import Accordion2 from "./Accordion2.jsx";
+import Accordion3 from "./Accordion3.jsx"
 const feeStructure = [
     {
-        year: "First Year",
-        tuitionFee: "INR 40,000",
-        hostelFee: "INR 15,000",
-        miscellaneous: "INR 5,000",
+        year: "PUC",
+        component: <Accordion2 />,
     },
     {
-        year: "Second Year",
-        tuitionFee: "INR 40,000",
-        hostelFee: "INR 15,000",
-        miscellaneous: "INR 5,000",
-    },
-    {
-        year: "Third Year",
-        tuitionFee: "INR 40,000",
-        hostelFee: "INR 15,000",
-        miscellaneous: "INR 5,000",
-    },
-    {
-        year: "Fourth Year",
-        tuitionFee: "INR 40,000",
-        hostelFee: "INR 15,000",
-        miscellaneous: "INR 5,000",
+        year: "Engineering",
+        component: <Accordion3 />,
     },
 ];
 
@@ -39,18 +24,10 @@ const Sections = () => {
                 {feeStructure.map((fee, index) => (
                     <Grid item xs={12} md={6} key={index}>
                         <Paper elevation={3} sx={{ p: 2 }}>
-                            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#003366' }}>
+                            <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#003366', textAlign: 'center' }}>
                                 {fee.year}
                             </Typography>
-                            <Typography variant="body1">
-                                <strong>Tuition Fee:</strong> {fee.tuitionFee}
-                            </Typography>
-                            <Typography variant="body1">
-                                <strong>Hostel Fee:</strong> {fee.hostelFee}
-                            </Typography>
-                            <Typography variant="body1">
-                                <strong>Miscellaneous:</strong> {fee.miscellaneous}
-                            </Typography>
+                            {fee.component}
                         </Paper>
                     </Grid>
                 ))}
