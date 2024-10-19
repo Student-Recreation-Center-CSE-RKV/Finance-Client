@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TextField, Paper, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TextField, Paper, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton, Typography } from '@mui/material';
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
 import "../AddedDues.css";
@@ -66,7 +66,7 @@ const AddedDues = () => {
 
   return (
     <div style={{ padding: '20px' }}> {/* Added padding */}
-      <h2 className="heading">See All Added Dues</h2>
+      <h1 style={{ width: "100%", textAlign: "center" }}>See All Added Dues</h1>
       <TextField
         label="Search"
         variant="outlined"
@@ -76,6 +76,16 @@ const AddedDues = () => {
         value={searchTerm}
         placeholder="Search by due number, addedToID, or fee type"
       />
+      <Typography
+        sx={{
+          fontWeight: 'bold',
+          padding: '10px 0',
+          width:"95%",
+          textAlign:"right"
+        }}
+      >
+        Click on image to see proof
+      </Typography>
 
       {loading ? (
         <CircularProgress />
@@ -109,7 +119,7 @@ const AddedDues = () => {
                         <img
                           src={due.image}
                           alt="Due"
-                          style={{ width: '50px', height: '50px', cursor: 'pointer' }} 
+                          style={{ width: '50px', height: '50px', cursor: 'pointer' }}
                           onClick={() => handleImageClick(due.image)} // Handle image click
                         />
                       </TableCell>
