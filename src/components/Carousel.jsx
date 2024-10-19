@@ -1,17 +1,11 @@
-
-
-
-
-
-
 import React, { useState } from 'react';
 import Slider from 'react-slick';
 import { Box, Typography, Paper, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import slideImage1 from '../assets/slide1.jpg';
-import slideImage2 from '../assets/slide2.jpg';
-import slideImage3 from '../assets/slide3.jpg';
-import slideImage4 from '../assets/slide4.jpg';
+import slideImage2 from '../assets/slide2.png';
+import slideImage3 from '../assets/slide3.png';
+import slideImage4 from '../assets/slide4.webp';
 import '../index.css';
 
 // Notification Data
@@ -100,7 +94,7 @@ const Carousel = () => {
 
     const slideStyle = {
         width: '100%',
-        height: '304px',
+        height: '334px',
         objectFit: 'cover',
     };
 

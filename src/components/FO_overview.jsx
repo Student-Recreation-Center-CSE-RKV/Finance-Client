@@ -9,7 +9,7 @@ const FinanceOfficeOverview = () => {
     ];
 
     return (
-        <Box sx={{width: '100%', maxWidth: '1200px', margin: 0, padding: '5px' }}>
+        <Box sx={{width: '100%', margin: 0, padding: '5px' }}>
             <Paper elevation={3} sx={{ padding: '9px', backgroundColor: '#f4f4f9' }}>
                 <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#034f84' , textAlign:'center'}}>
                     Finance Office Overview

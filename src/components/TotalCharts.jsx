@@ -205,7 +205,7 @@ export default function TotalCharts() {
               rotate: 0,
             }}
           >
-            <div style={{ paddingLeft: "2rem" }}>
+            <div style={{ paddingLeft: "2rem" ,marginTop:'10px'}}>
           {/* Batch-Based Details */}
           <Typography variant="h6">Batch-Based Details</Typography>
           <ToggleButtonGroup
