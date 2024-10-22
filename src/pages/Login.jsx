@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Container, Box, Card, CircularProgress } from "@mui/material";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from './AuthContext'; 
 
 const LoginForm = () => {
+  const { login, logout, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
@@ -44,9 +46,9 @@ const LoginForm = () => {
 
         // Store token, name, and email in localStorage
 
-        localStorage.setItem('user',JSON.stringify({'token':token,"name":user.name,"email":user.email}))
-
-        navigate("/Auth/Login");
+        
+        login({'token':token,"name":user.name,"email":user.email});
+        
         console.log('Successfully logged in:', response.data);
       } else {
         setError("Login failed. " + response.data.message);
@@ -61,8 +63,8 @@ const LoginForm = () => {
   
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    navigate("/Auth/Login")
+    
+    logout(); 
   };
 
   if (localStorage.getItem("user")) {
@@ -87,10 +89,10 @@ const LoginForm = () => {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Welcome, {localStorage.getItem('name')}
+              Welcome, {JSON.parse(localStorage.getItem('user')).name}
             </Typography>
             <Typography variant="body1" gutterBottom>
-              You are already logged in with the email: {localStorage.getItem('email')}
+              You are already logged in with the email: {JSON.parse(localStorage.getItem('user')).email}
             </Typography>
             <Button
               variant="contained"

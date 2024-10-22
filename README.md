@@ -8,11 +8,10 @@ A web application for our college finance office to upload bank statements, anal
   
 ## Contributors
 
-- **Nagarjuna**
-- **Revanth**
-- **Puneeth**
-- **Chethana**
-
+**Nagarjuna**: [Nagarjuna 's GitHub](https://github.com/Nagarjuna0033)
+**Nagarjuna**: [Jilakara Revanth Kumar's GitHub](https://github.com/revanthkumarJ)
+**Nagarjuna**: [Puneeth's GitHub](https://github.com/lvup81)
+**Nagarjuna**: [Chethana's GitHub](https://github.com/ChethanaPotukanam)
 
 
 

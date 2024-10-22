@@ -7,3 +7,5 @@ The Home Page provides an overview of the college finance office, showcasing dif
 - **Fee Structures** categorized by batch and other criteria.
 - **Finance Office Overview** with a brief description of services offered.
 
+![Home Page top](https://github.com/revanthkumarJ/Finance-Client/blob/main/images/FinanceHome1.png)  
+![Home Page Below](https://github.com/revanthkumarJ/Finance-Client/blob/main/images/FinanceHome2.png)  

@@ -31,7 +31,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
+import { useAuth } from '../pages/AuthContext';
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useState } from 'react';
@@ -145,7 +145,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Demo() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const AuthContext = createContext();
+  const { isLoggedIn, logout } = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -332,11 +332,11 @@ export default function Demo() {
         }}
       >
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={isLoggedIn ? logout : undefined}>
             <ListItemIcon>
-              {localStorage.getItem("user") ? <LogoutIcon /> : <LoginIcon />}
+              {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
             </ListItemIcon>
-            <ListItemText primary={localStorage.getItem("user") ? "Sign Out" : "Login"} />
+            <ListItemText primary={isLoggedIn ? "Sign Out" : "Login"} />
           </ListItemButton>
         </ListItem>
       </Link>
