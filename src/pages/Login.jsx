@@ -1,15 +1,113 @@
-import React, { useState } from "react";
-import { TextField, Button, Typography, Container, Box, Card } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { TextField, Button, Typography, Container, Box, Card, CircularProgress } from "@mui/material";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from './AuthContext'; 
 
 const LoginForm = () => {
+  const { login, logout, isLoggedIn } = useAuth();
+  const navigate = useNavigate();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log("ID:", id);
-    console.log("Password:", password);
+  // Check if the user is already logged in on component mount
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     setIsLoggedIn(true);
+  //   }
+  // }, []);
+
+  const handleLogin = async () => {
+    if (!id || !password) {
+      setError("Both fields are required");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    
+
+    try {
+      const response = await axios.post('http://localhost:3001/api/v1/login', {
+        email: id,
+        password: password,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.data.success) {
+        const { token, user } = response.data.data;
+
+        // Store token, name, and email in localStorage
+
+        
+        login({'token':token,"name":user.name,"email":user.email});
+        
+        console.log('Successfully logged in:', response.data);
+      } else {
+        setError("Login failed. " + response.data.message);
+      }
+    } catch (error) {
+      setError("An error occurred during login. Please try again.");
+      console.error('Error during login:', error);
+    } finally {
+      setLoading(false);
+    }
   };
+  
+
+  const handleLogout = () => {
+    
+    logout(); 
+  };
+
+  if (localStorage.getItem("user")) {
+    return (
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <Card
+            elevation={5}
+            sx={{
+              padding: 4,
+              width: "100%",
+              maxWidth: 350,
+              textAlign: "center",
+            }}
+          >
+            <Typography variant="h5" gutterBottom>
+              Welcome, {JSON.parse(localStorage.getItem('user')).name}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              You are already logged in with the email: {JSON.parse(localStorage.getItem('user')).email}
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleLogout}
+              fullWidth
+              sx={{ marginTop: 2 }}
+            >
+              Logout
+            </Button>
+          </Card>
+        </Box>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="sm">
@@ -22,7 +120,6 @@ const LoginForm = () => {
           height: "80vh",
         }}
       >
-        {/* Card with elevation and custom height-to-width ratio */}
         <Card
           elevation={5}
           sx={{
@@ -32,21 +129,19 @@ const LoginForm = () => {
             maxHeight: 400,
           }}
         >
-          {/* Decreased heading size */}
           <Typography
-            variant="h5" // Heading size
+            variant="h5"
             component="h1"
             gutterBottom
             align="center"
             sx={{
-                marginBottom: 2, // Adjust this value to set your preferred bottom margin
-                marginTop: 1, // Optional top margin
-              }}
+              marginBottom: 2,
+              marginTop: 1,
+            }}
           >
             FO Admin Login
           </Typography>
 
-          {/* ID TextField with placeholder */}
           <TextField
             id="id-field"
             label="User Name"
@@ -62,11 +157,11 @@ const LoginForm = () => {
                 '& fieldset': {
                   borderColor: 'blue',
                 },
-              },marginBottom: 1.5
+              },
+              marginBottom: 1.5
             }}
           />
 
-          {/* Password TextField with placeholder */}
           <TextField
             id="password-field"
             label="Password"
@@ -87,7 +182,12 @@ const LoginForm = () => {
             }}
           />
 
-          {/* Larger Login Button */}
+          {error && (
+            <Typography color="error" sx={{ marginBottom: 2 }}>
+              {error}
+            </Typography>
+          )}
+
           <Button
             variant="contained"
             color="primary"
@@ -95,12 +195,13 @@ const LoginForm = () => {
             fullWidth
             sx={{
               marginTop: 3,
-              marginBottom:2,
-              paddingY: 1.4, // Increases button height
-              fontSize: "1.1rem", // Increases button text size
+              marginBottom: 2,
+              paddingY: 1.4,
+              fontSize: "1.1rem",
             }}
+            disabled={loading}
           >
-            Login
+            {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
         </Card>
       </Box>

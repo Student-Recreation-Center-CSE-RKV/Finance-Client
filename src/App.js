@@ -13,6 +13,7 @@ import EditStudent from "./components/EditStudent";
 import AddDue from "./components/AddDue";
 import Navbar from "./components/Navbar";
 import SeeAddedDues from "./components/SeeAddedDues";
+import { AuthProvider } from "./pages/AuthContext";
 // import ConsentForm from "./components/ConsentForm";
 
 import "./App.css";
@@ -36,70 +37,71 @@ function App() {
   };
 
   return (
-    <div className="App">
-      {/* <Navbar /> */}
-      {/* <Header />
+    <AuthProvider>
+      <div className="App">
+        {/* <Navbar /> */}
+        {/* <Header />
       <Carousel />  */}
-      <CustomizedSnackbar
-        open={openSnackbar}
-        onClose={handleCloseSnackbar}
-        message={message}
-      />
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/Student/fee"
-          element={
-            <StudentFee
-              triggerSnackbar={showSnackbar}
-              setMessage={setMessage}
-            />
-          }
+        <CustomizedSnackbar
+          open={openSnackbar}
+          onClose={handleCloseSnackbar}
+          message={message}
         />
-        <Route
-          path="/Bank/Due"
-          element={
-            <BankDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
-          }
-        />
-        <Route
-          path="/see/added/dues"
-          element={
-            <SeeAddedDues triggerSnackbar={showSnackbar} setMessage={setMessage} />
-          }
-        />
-        <Route
-          path="/edit/student"
-          element={
-          <EditStudent triggerSnackbar={showSnackbar} setMessage={setMessage} />
-          }
-        />
-        <Route
-          path="/add/due"
-          element={
-          <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
-          }
-        />
-        
-        <Route
-          path="/Upload"
-          element={
-            <UploadPage
-              triggerSnackbar={showSnackbar}
-              setMessage={setMessage}
-            />
-          }
-        />
-        <Route
-          path="/Insights"
-          element={
-            <TotalCharts/>
-          }
-        />
-        <Route path="/Auth/Login" element={<LoginForm />} />
-      </Routes>
-    </div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/Student/fee"
+            element={
+              <StudentFee
+                triggerSnackbar={showSnackbar}
+                setMessage={setMessage}
+              />
+            }
+          />
+          <Route
+            path="/Bank/Due"
+            element={
+              <BankDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            }
+          />
+          <Route
+            path="/see/added/dues"
+            element={
+              <SeeAddedDues triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            }
+          />
+          <Route
+            path="/edit/student"
+            element={
+              <EditStudent triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            }
+          />
+          <Route
+            path="/add/due"
+            element={
+              <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            }
+          />
+
+          <Route
+            path="/Upload"
+            element={
+              <UploadPage
+                triggerSnackbar={showSnackbar}
+                setMessage={setMessage}
+              />
+            }
+          />
+          <Route
+            path="/Insights"
+            element={
+              <TotalCharts />
+            }
+          />
+          <Route path="/Auth/Login" element={<LoginForm />} />
+        </Routes>
+      </div></AuthProvider>
   );
 }
 

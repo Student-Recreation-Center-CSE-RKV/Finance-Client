@@ -31,7 +31,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import RemoveRedEyeTwoToneIcon from '@mui/icons-material/RemoveRedEyeTwoTone';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
+import { useAuth } from '../pages/AuthContext';
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import { useState } from 'react';
@@ -145,6 +145,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function Demo() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { isLoggedIn, logout } = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -322,32 +323,28 @@ export default function Demo() {
 
 
         <List>
-          {["Login", "Sign Out"].map((text, index) => (
-            <Link
-              to={text === "Login" ? "/Auth/Login" : "/"}
-              style={{
-                textDecoration: "none",
-                color: "black",
-                width: "100%",
-              }}
-            >
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index === 0 ? <LoginIcon /> : <LogoutIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          ))}
-        </List>
+      <Link
+        to="/Auth/Login" // Redirect to home if signed out, else to login
+        style={{
+          textDecoration: "none",
+          color: "black",
+          width: "100%",
+        }}
+      >
+        <ListItem disablePadding>
+          <ListItemButton onClick={isLoggedIn ? logout : undefined}>
+            <ListItemIcon>
+              {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
+            </ListItemIcon>
+            <ListItemText primary={isLoggedIn ? "Sign Out" : "Login"} />
+          </ListItemButton>
+        </ListItem>
+      </Link>
+    </List>
 
 
       </Drawer>
-      {/* <Box>
-        <Outlet />
-      </Box> */}
+      
     </Box>
   );
 };
