@@ -160,23 +160,22 @@ export default function Demo() {
       <CssBaseline />
       <AppBar position="static" open={open} sx={{ backgroundColor: "#034f84" }}>
         <Toolbar>
-
           <IconButton
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={[
               {
-                color: 'black',           // Set the icon color (can be anything you prefer)
-                backgroundColor: 'white', // White background circle
-                borderRadius: '50%',      // Circular shape
-                padding: '8px',           // Padding to make the circle larger
+                color: "black", // Set the icon color (can be anything you prefer)
+                backgroundColor: "white", // White background circle
+                borderRadius: "50%", // Circular shape
+                padding: "8px", // Padding to make the circle larger
                 mr: 2,
-                '&:hover': {
-                  backgroundColor: 'lightgray', // Change background on hover for a nice effect
+                "&:hover": {
+                  backgroundColor: "lightgray", // Change background on hover for a nice effect
                 },
               },
-              open && { display: "none" },  // Conditionally hide when open
+              open && { display: "none" }, // Conditionally hide when open
             ]}
           >
             <AccountBalanceIcon />
@@ -202,7 +201,7 @@ export default function Demo() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-      </Toolbar>
+        </Toolbar>
       </AppBar>
       <Drawer
         sx={{
@@ -253,11 +252,21 @@ export default function Demo() {
             </Link>
           ))}
         </List>
-      
+
         <List>
-          {["Add Due Number","Edit Student Details"].map((text, index) => (
+          {[
+            "Add Due Number",
+            "Edit Student Details",
+            "ExchangeInstallment",
+          ].map((text, index) => (
             <Link
-              to={text === "Add Due Number" ? "/add/due" : "/edit/student"}
+              to={
+                text === "Add Due Number"
+                  ? "/add/due"
+                  : text === "Edit Student Details"
+                  ? "/edit/student"
+                  : "/edit/installment"
+              }
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -267,7 +276,11 @@ export default function Demo() {
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index === 0 ? <ModeEditOutlineIcon /> : <ModeEditOutlineIcon />}
+                    {index === 0 ? (
+                      <ModeEditOutlineIcon />
+                    ) : (
+                      <ModeEditOutlineIcon />
+                    )}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -276,19 +289,23 @@ export default function Demo() {
           ))}
         </List>
         <List>
-          {["Insights","See All Added Dues"].map((text, index) => (
+          {["Insights", "See All Added Dues"].map((text, index) => (
             <Link
               to={text === "Insights" ? "/Insights" : "/see/added/dues"}
               style={{
                 textDecoration: "none",
                 color: "black",
                 width: "100%",
-              }} 
+              }}
             >
               <ListItem key={text} disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
-                    {index === 0 ? <InsightsIcon/> : <RemoveRedEyeTwoToneIcon/>}
+                    {index === 0 ? (
+                      <InsightsIcon />
+                    ) : (
+                      <RemoveRedEyeTwoToneIcon />
+                    )}
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>
@@ -296,7 +313,7 @@ export default function Demo() {
             </Link>
           ))}
         </List>
-       
+
         <Divider />
         <List>
           {["Upload Excel"].map((text, index) => (
@@ -321,30 +338,26 @@ export default function Demo() {
         </List>
         <Divider />
 
-
         <List>
-      <Link
-        to="/Auth/Login" // Redirect to home if signed out, else to login
-        style={{
-          textDecoration: "none",
-          color: "black",
-          width: "100%",
-        }}
-      >
-        <ListItem disablePadding>
-          <ListItemButton onClick={isLoggedIn ? logout : undefined}>
-            <ListItemIcon>
-              {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
-            </ListItemIcon>
-            <ListItemText primary={isLoggedIn ? "Sign Out" : "Login"} />
-          </ListItemButton>
-        </ListItem>
-      </Link>
-    </List>
-
-
+          <Link
+            to="/Auth/Login" // Redirect to home if signed out, else to login
+            style={{
+              textDecoration: "none",
+              color: "black",
+              width: "100%",
+            }}
+          >
+            <ListItem disablePadding>
+              <ListItemButton onClick={isLoggedIn ? logout : undefined}>
+                <ListItemIcon>
+                  {isLoggedIn ? <LogoutIcon /> : <LoginIcon />}
+                </ListItemIcon>
+                <ListItemText primary={isLoggedIn ? "Sign Out" : "Login"} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        </List>
       </Drawer>
-      
     </Box>
   );
 };
