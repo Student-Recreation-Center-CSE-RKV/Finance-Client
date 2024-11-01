@@ -10,6 +10,7 @@ import BankDue from "./pages/BankDue";
 import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
 import EditStudent from "./components/EditStudent";
+import EditInstallment from "./components/EditInstallment";
 import AddDue from "./components/AddDue";
 import Navbar from "./components/Navbar";
 import SeeAddedDues from "./components/SeeAddedDues";
@@ -81,6 +82,12 @@ function App() {
             path="/add/due"
             element={
               <AddDue triggerSnackbar={showSnackbar} setMessage={setMessage} />
+            }
+          />
+          <Route
+            path="/edit/installment"
+            element={
+              <EditInstallment triggerSnackbar={showSnackbar} setMessage={setMessage} />
             }
           />
 
