@@ -1,44 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
+import { Box, Stack } from "@mui/material";
 
-import { useLocation } from "react-router-dom";
-export default function Search({ getData, setID, ID, isLoading, isError }) {
-  const location = useLocation();
-console.log("Revanth",location.pathname)
+export default function Search({
+  text = "Enter Id",
+  getData,
+  setID,
+  ID,
+  isLoading,
+  isError,
+  placeholder = "RXXXXXX",
+}) {
   return (
-    <div
-      style={{
-        padding: 1 + "rem",
-        display: "flex",
-        justifyContent: "center",
-        marginTop: 1 + "rem",
-        gap: 1 + "rem",
-        alignItems: "center",
-      }}
-    >
-      <TextField
-        error={isError}
-        id="outlined-textarea"
-        label={
-          (location.pathname === "/Student/fee" || location.pathname ===  "/edit/student") ? "Enter ID" : "Enter Due No." 
-        }
-        placeholder={location.pathname === "/" ? "RXXXXXX" : "XXXXXXXXX"}
-        onChange={(e) => {
-          setID(e.target.value);
-        }}
-        value={ID}
-      />
-      <LoadingButton
-        loadingPosition="start"
-        loading={isLoading}
-        onClick={getData}
-        startIcon={isLoading && <SaveIcon />}
-        variant="contained"
-      >
-        Fetch Data {isLoading && "Of " + ID}
-      </LoadingButton>
-    </div>
+    <Box width={"100%"}>
+      <Stack direction={"row"} gap={5}>
+        <TextField
+          sx={{ width: "100%" }}
+          error={isError}
+          id="outlined-textarea"
+          label={text}
+          placeholder={placeholder}
+          value={ID}
+          onChange={(e) => {
+            setID(e.target.value);
+          }}
+        />
+        <LoadingButton
+          sx={{ width: "50%" }}
+          loadingPosition="start"
+          loading={isLoading}
+          onClick={getData}
+          startIcon={isLoading && <SaveIcon />}
+          variant="contained"
+        >
+          Fetch Data {isLoading && "Of " + ID}
+        </LoadingButton>
+      </Stack>
+    </Box>
   );
 }

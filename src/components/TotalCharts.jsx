@@ -25,19 +25,19 @@ export default function TotalCharts() {
   const [categoryChartData, setCategoryChartData] = useState([]);
   const [selectedBatchChart, setSelectedBatchChart] = useState("");
   const [batchData, setBatchData] = useState(null);
-  const [selectedBatch, setSelectedBatch] = useState("0"); // Default batch is "0"
-  const [selectedCategoryChart, setSelectedCategoryChart] = useState(""); // Default category chart
+  const [selectedBatch, setSelectedBatch] = useState("0");
+  const [selectedCategoryChart, setSelectedCategoryChart] = useState("");
   const [categoryDataFetched, setCategoryDataFetched] = useState([]);
 
-
   useEffect(() => {
-    // Fetch batch data on load
     const fetchBatchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("http://localhost:3001/api/v1/graph/batch");
+        const response = await axios.get(
+          "http://localhost:3001/api/v1/graph/batch"
+        );
         setBatchData(response.data);
-        handleBatchChartClick("feePaid", response.data); // Default chart type
+        handleBatchChartClick("feePaid", response.data);
       } catch (error) {
         console.error("Error fetching batch data:", error);
       } finally {
@@ -45,16 +45,18 @@ export default function TotalCharts() {
       }
     };
     fetchBatchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // Fetch category data for the selected batch
     const fetchCategoryData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3001/api/v1/graph/category/${selectedBatch}`);
+        const response = await axios.get(
+          `http://localhost:3001/api/v1/graph/category/${selectedBatch}`
+        );
         setCategoryDataFetched(response.data);
-        handleCategoryChartClick("totalPeople", response.data); // Initialize with totalPeople data
+        handleCategoryChartClick("totalPeople", response.data);
       } catch (error) {
         console.error("Error fetching category data:", error);
       } finally {
@@ -62,6 +64,8 @@ export default function TotalCharts() {
       }
     };
     fetchCategoryData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedBatch]);
 
   const handleBatchSelectionChange = async (event) => {
@@ -144,12 +148,12 @@ export default function TotalCharts() {
             value: item.totalRemainingBalance,
           }));
           break;
-          case "gender":
-            newData = data.gender.map((item) => ({
-              name: item._id,
-              value: item.totalStudents,
-            }));
-            break;
+        case "gender":
+          newData = data.gender.map((item) => ({
+            name: item._id,
+            value: item.totalStudents,
+          }));
+          break;
         case "hostelFee":
           newData = data.totalHostelFee.map((item) => ({
             name: item._id,
@@ -169,7 +173,6 @@ export default function TotalCharts() {
           }));
           break;
 
-
         default:
           newData = [];
       }
@@ -177,114 +180,152 @@ export default function TotalCharts() {
     }
   };
 
-  const batchOptions = batchData ? batchData.totalScholarShipByBatch.map((item) => item._id) : [];
+  const batchOptions = batchData
+    ? batchData.totalScholarShipByBatch.map((item) => item._id)
+    : [];
   batchOptions.push("0");
 
-  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   return (
     <>
       {loading ? (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "400px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "400px",
+          }}
+        >
           <CircularProgress />
-          <Typography variant="h6" style={{ marginLeft: "1rem" }}>Loading...</Typography>
+          <Typography variant="h6" style={{ marginLeft: "1rem" }}>
+            Loading...
+          </Typography>
         </div>
       ) : (
-
         <motion.div
-            initial={{ scale: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 500,
-              damping: 100,
-            }}
-            animate={{
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotate: 0,
-            }}
-          >
-            <div style={{ paddingLeft: "2rem" ,marginTop:'10px'}}>
-          {/* Batch-Based Details */}
-          <Typography variant="h6">Batch-Based Details</Typography>
-          <ToggleButtonGroup
-            value={selectedBatchChart}
-            exclusive
-            onChange={(event, newAlignment) => handleBatchChartClick(newAlignment)}
-            aria-label="batch-based chart selection"
-            style={{ margin: "1rem" }}
-          >
-            <ToggleButton value="feePaid">Total Fee Paid</ToggleButton>
-            <ToggleButton value="scholarships">Scholarships</ToggleButton>
-            <ToggleButton value="loans">Loans</ToggleButton>
-            <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
-            <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
-            <ToggleButton value="remainingBalance">Remaining Balance</ToggleButton>
-          </ToggleButtonGroup>
-
-          <ResponsiveContainer width="90%" height={400} style={{ margin: "3rem" }}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis width={80} tick={{ fontSize: 12, fill: "#000" }} tickLine={true} axisLine={{ stroke: '#000', strokeWidth: 1 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" fill={colors[0]} />
-            </BarChart>
-          </ResponsiveContainer>
-
-          {/* Dropdown for Batch Selection */}
-          <FormControl fullWidth style={{ marginTop: '20px', marginBottom: '16px' }}>
-            <InputLabel id="demo-simple-select-label">Select Batch</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedBatch}
-              label="Select Batch"
-              onChange={handleBatchSelectionChange}
+          initial={{ scale: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 500,
+            damping: 100,
+          }}
+          animate={{
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotate: 0,
+          }}
+        >
+          <div style={{ paddingLeft: "2rem", marginTop: "10px" }}>
+            {/* Batch-Based Details */}
+            <Typography variant="h6">Batch-Based Details</Typography>
+            <ToggleButtonGroup
+              value={selectedBatchChart}
+              exclusive
+              onChange={(event, newAlignment) =>
+                handleBatchChartClick(newAlignment)
+              }
+              aria-label="batch-based chart selection"
+              style={{ margin: "1rem" }}
             >
-              {batchOptions.map((item, index) => (
-                <MenuItem key={index} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              <ToggleButton value="feePaid">Total Fee Paid</ToggleButton>
+              <ToggleButton value="scholarships">Scholarships</ToggleButton>
+              <ToggleButton value="loans">Loans</ToggleButton>
+              <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
+              <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
+              <ToggleButton value="remainingBalance">
+                Remaining Balance
+              </ToggleButton>
+            </ToggleButtonGroup>
 
-          {/* Category-Based Details */}
-          <Typography variant="h6">Category-Based Details</Typography>
-          <ToggleButtonGroup
-            value={selectedCategoryChart}
-            exclusive
-            onChange={(event, newAlignment) => handleCategoryChartClick(newAlignment)}
-            aria-label="category-based chart selection"
-            style={{ margin: "1rem" }}
-          >
-            <ToggleButton value="gender">Gender</ToggleButton>
-            <ToggleButton value="totalPeople">Total People</ToggleButton>
-            <ToggleButton value="totalFeePaid">Total Fee Paid</ToggleButton>
-            <ToggleButton value="totalRemainingBalance">Remaining Balance</ToggleButton>
-            <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
-            <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
-            <ToggleButton value="loan">Loan</ToggleButton>
-          </ToggleButtonGroup>
+            <ResponsiveContainer
+              width="90%"
+              height={400}
+              style={{ margin: "3rem" }}
+            >
+              <BarChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis
+                  width={80}
+                  tick={{ fontSize: 12, fill: "#000" }}
+                  tickLine={true}
+                  axisLine={{ stroke: "#000", strokeWidth: 1 }}
+                />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill={colors[0]} />
+              </BarChart>
+            </ResponsiveContainer>
 
-          <ResponsiveContainer width="90%" height={400} style={{ margin: "3rem" }}>
-            <BarChart data={categoryChartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis width={80} tick={{ fontSize: 12, fill: "#000" }} tickLine={true} axisLine={{ stroke: '#000', strokeWidth: 1 }} />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="value" fill={colors[1]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+            {/* Dropdown for Batch Selection */}
+            <FormControl
+              fullWidth
+              style={{ marginTop: "20px", marginBottom: "16px" }}
+            >
+              <InputLabel id="demo-simple-select-label">
+                Select Batch
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedBatch}
+                label="Select Batch"
+                onChange={handleBatchSelectionChange}
+              >
+                {batchOptions.map((item, index) => (
+                  <MenuItem key={index} value={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
-          </motion.div>
+            {/* Category-Based Details */}
+            <Typography variant="h6">Category-Based Details</Typography>
+            <ToggleButtonGroup
+              value={selectedCategoryChart}
+              exclusive
+              onChange={(event, newAlignment) =>
+                handleCategoryChartClick(newAlignment)
+              }
+              aria-label="category-based chart selection"
+              style={{ margin: "1rem" }}
+            >
+              <ToggleButton value="gender">Gender</ToggleButton>
+              <ToggleButton value="totalPeople">Total People</ToggleButton>
+              <ToggleButton value="totalFeePaid">Total Fee Paid</ToggleButton>
+              <ToggleButton value="totalRemainingBalance">
+                Remaining Balance
+              </ToggleButton>
+              <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
+              <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
+              <ToggleButton value="loan">Loan</ToggleButton>
+            </ToggleButtonGroup>
 
-        
+            <ResponsiveContainer
+              width="90%"
+              height={400}
+              style={{ margin: "3rem" }}
+            >
+              <BarChart data={categoryChartData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis
+                  width={80}
+                  tick={{ fontSize: 12, fill: "#000" }}
+                  tickLine={true}
+                  axisLine={{ stroke: "#000", strokeWidth: 1 }}
+                />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill={colors[1]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
       )}
     </>
   );

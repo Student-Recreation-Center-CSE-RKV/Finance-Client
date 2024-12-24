@@ -1,24 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { TextField, Button, Typography, Container, Box, Card, CircularProgress } from "@mui/material";
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import { useAuth } from './AuthContext'; 
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  Card,
+  CircularProgress,
+} from "@mui/material";
+import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const LoginForm = () => {
-  const { login, logout, isLoggedIn } = useAuth();
-  const navigate = useNavigate();
+  const { login, logout } = useAuth();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  // Check if the user is already logged in on component mount
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     setIsLoggedIn(true);
-  //   }
-  // }, []);
 
   const handleLogin = async () => {
     if (!id || !password) {
@@ -29,42 +27,39 @@ const LoginForm = () => {
     setLoading(true);
     setError("");
 
-    
-
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/login', {
-        email: id,
-        password: password,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.post(
+        "http://localhost:3001/api/v1/login",
+        {
+          email: id,
+          password: password,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.data.success) {
         const { token, user } = response.data.data;
 
-        // Store token, name, and email in localStorage
+        login({ token: token, name: user.name, email: user.email });
 
-        
-        login({'token':token,"name":user.name,"email":user.email});
-        
-        console.log('Successfully logged in:', response.data);
+        console.log("Successfully logged in:", response.data);
       } else {
         setError("Login failed. " + response.data.message);
       }
     } catch (error) {
       setError("An error occurred during login. Please try again.");
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
     } finally {
       setLoading(false);
     }
   };
-  
 
   const handleLogout = () => {
-    
-    logout(); 
+    logout();
   };
 
   if (localStorage.getItem("user")) {
@@ -89,10 +84,11 @@ const LoginForm = () => {
             }}
           >
             <Typography variant="h5" gutterBottom>
-              Welcome, {JSON.parse(localStorage.getItem('user')).name}
+              Welcome, {JSON.parse(localStorage.getItem("user")).name}
             </Typography>
             <Typography variant="body1" gutterBottom>
-              You are already logged in with the email: {JSON.parse(localStorage.getItem('user')).email}
+              You are already logged in with the email:{" "}
+              {JSON.parse(localStorage.getItem("user")).email}
             </Typography>
             <Button
               variant="contained"
@@ -152,13 +148,13 @@ const LoginForm = () => {
             value={id}
             onChange={(e) => setId(e.target.value)}
             sx={{
-              '& .MuiOutlinedInput-root.Mui-focused': {
-                borderColor: 'blue',
-                '& fieldset': {
-                  borderColor: 'blue',
+              "& .MuiOutlinedInput-root.Mui-focused": {
+                borderColor: "blue",
+                "& fieldset": {
+                  borderColor: "blue",
                 },
               },
-              marginBottom: 1.5
+              marginBottom: 1.5,
             }}
           />
 
@@ -173,10 +169,10 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             sx={{
-              '& .MuiOutlinedInput-root.Mui-focused': {
-                borderColor: 'blue',
-                '& fieldset': {
-                  borderColor: 'blue',
+              "& .MuiOutlinedInput-root.Mui-focused": {
+                borderColor: "blue",
+                "& fieldset": {
+                  borderColor: "blue",
                 },
               },
             }}

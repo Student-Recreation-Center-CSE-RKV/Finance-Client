@@ -4,8 +4,6 @@ import {
   Typography,
   Container,
   Box,
-  Card,
-  CardContent,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -21,26 +19,23 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
   const [fileType, setFileType] = useState("student");
   const [selectedFile, setSelectedFile] = useState(null);
   const [typeOfExcel, setTypeOfFile] = useState("tutionFee");
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-
+  const [isLoading, setIsLoading] = useState(false);
   const url =
     process.env.REACT_APP_BASE_URL_PROTOCOL +
     process.env.REACT_APP_BASE_URL_HOST +
     process.env.REACT_APP_BASE_URL_POST +
     process.env.REACT_APP_VERSION;
 
-  // Handle file selection
   const handleFileChange = (event) => {
     console.log(url);
     const file = event.target.files[0];
-    console.log(file)
+    console.log(file);
     if (file) {
-      console.log("choosen")
+      console.log("choosen");
       setSelectedFile(file);
     }
   };
 
-  // Handle file upload
   const handleFileUpload = async () => {
     if (!selectedFile) {
       triggerSnackbar();
@@ -50,7 +45,7 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       });
       return;
     }
-    setIsLoading(true); // Set loading state
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -59,11 +54,9 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       let newUrl = url + temp;
       console.log(newUrl);
 
-       // Logic for when fileType is "msi"
-    if (fileType === "msi") {
-     
-      newUrl =url+ "/upload/msi"; // Change as necessary based on your API endpoint
-    }
+      if (fileType === "msi") {
+        newUrl = url + "/upload/msi";
+      }
 
       const response = await axios.post(newUrl, formData, {
         headers: {
@@ -73,7 +66,7 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       console.log(response);
       if (response.status === 200) {
         setSelectedFile(null);
-        document.getElementById("file-upload-input").value = ""; // Reset the input field
+        document.getElementById("file-upload-input").value = "";
         snackbarUtil(
           setMessage,
           triggerSnackbar,
@@ -101,7 +94,7 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
         );
       }
     } finally {
-      setIsLoading(false); // Reset loading state after the request
+      setIsLoading(false);
     }
   };
 
@@ -115,7 +108,6 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
           alignContent: "center",
         }}
       >
-        {/* Heading */}
         <Typography
           variant="h5"
           component="h1"
@@ -125,7 +117,6 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
           Upload Excel To DataBase
         </Typography>
 
-        {/* Radio buttons to select file type */}
         <FormLabel component="legend">File Type</FormLabel>
         <RadioGroup
           row
@@ -195,17 +186,20 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
           sx={{ marginBottom: 2, paddingY: 2, fontSize: "1rem" }}
         >
           {fileType === "student" ? "Choose Student File" : "Choose MSI File"}
-          <input type="file" id="file-upload-input" hidden onChange={handleFileChange} />
+          <input
+            type="file"
+            id="file-upload-input"
+            hidden
+            onChange={handleFileChange}
+          />
         </Button>
 
-        {/* Display selected file name */}
         {selectedFile && (
           <Typography variant="body2" sx={{ marginBottom: 2 }}>
             Selected File: {selectedFile.name}
           </Typography>
         )}
 
-        {/* LoadingButton for file upload */}
         <LoadingButton
           loading={isLoading}
           loadingPosition="start"
@@ -216,13 +210,6 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
         >
           {fileType === "student" ? `Upload Student Data ` : `Upload MSI Data `}
         </LoadingButton>
-
-        {/* Card for file upload status
-                <Card sx={{ width: "100%", padding: 3, marginTop: 4 }}>
-                    <CardContent>
-                        <Typography variant="body1">{status}</Typography>
-                    </CardContent>
-                </Card> */}
       </Box>
     </Container>
   );
