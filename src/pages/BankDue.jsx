@@ -4,13 +4,16 @@ import { useState } from "react";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-import Header from "../components/Header";
 import CustomizedGrid from "../components/CustomizedGrid";
 import DueDetails from "../components/DueDetails";
 import { motion } from "framer-motion";
+import { Box } from "@mui/material";
+
 export default function BankDue({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setError] = useState(false);
   const getStudentByIdApi =
     process.env.REACT_APP_BASE_URL_PROTOCOL +
     process.env.REACT_APP_BASE_URL_HOST +
@@ -20,11 +23,10 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
   const changeData = (e) => {
     setData(e);
   };
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setError] = useState(false);
 
   const toggleLoading = (state) => setIsLoading(state);
   const toggleError = (state) => setError(state);
+
   const getData = async () => {
     if (TextFieldUtils.textFieldCheck(ID)) {
       toggleLoading(true);
@@ -34,7 +36,7 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
         console.log(response);
         if (response.status === 200) {
           changeData(response.data);
-          console.log("bankDue",response.data)
+          console.log("bankDue", response.data);
           snackbarUtil(
             setMessage,
             triggerSnackbar,
@@ -54,13 +56,15 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
           snackbarUtil(setMessage, triggerSnackbar, "Internal Error", "error");
         }
       } catch (error) {
+        console.log(error);
         changeData({});
-        snackbarUtil(
-          setMessage,
-          triggerSnackbar,
-          error.response.data.message,
-          "error"
-        );
+
+        const errorMessage =
+          error.response && error.response.data && error.response.data.message
+            ? error.response.data.message
+            : "An unexpected error occurred";
+
+        snackbarUtil(setMessage, triggerSnackbar, errorMessage, "error");
       } finally {
         toggleLoading(false);
       }
@@ -72,35 +76,38 @@ export default function BankDue({ triggerSnackbar, setMessage }) {
   };
   return (
     <>
-      <Search
-        getData={getData}
-        setID={setID}
-        ID={ID}
-        isLoading={isLoading}
-        isError={isError}
-      />
-      {Object.keys(data).length !== 0 && (
-        <>
-          <motion.div
-            initial={{ scale: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 500,
-              damping: 100,
-            }}
-            animate={{
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotate: 0,
-            }}
-          >
-            <Header />
-            <CustomizedGrid data={data} />
-            <DueDetails data={data} />
-          </motion.div>
-        </>
-      )}
+      <Box width={"100%"}>
+        <Search
+          getData={getData}
+          setID={setID}
+          ID={ID}
+          isLoading={isLoading}
+          isError={isError}
+          text="Enter Reference No"
+          placeholder="XXXXXXXXX"
+        />
+        {data && Object.keys(data).length !== 0 && (
+          <>
+            <motion.div
+              initial={{ scale: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 100,
+              }}
+              animate={{
+                x: 0,
+                y: 0,
+                scale: 1,
+                rotate: 0,
+              }}
+            >
+              <CustomizedGrid data={data} />
+              <DueDetails data={data} />
+            </motion.div>
+          </>
+        )}
+      </Box>
     </>
   );
 }

@@ -9,6 +9,7 @@ import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
 import StudentChart from "../components/StudentChart";
 import { motion } from "framer-motion";
+import { Box } from "@mui/material";
 export default function StudentFee({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
@@ -31,9 +32,8 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
       toggleLoading(true);
       toggleError(false);
       try {
-        // console.log(getStudentByIdApi + ID)
         const response = await axios.get(getStudentByIdApi + ID);
-        console.log("Student Fee",response);
+        console.log("Student Fee", response);
         if (response.status === 200) {
           changeData(response.data);
           snackbarUtil(
@@ -71,45 +71,47 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
       snackbarUtil(setMessage, triggerSnackbar, "ID required", "error");
     }
   };
- 
+
   return (
     <>
-      <Search
-        getData={getData}
-        setID={setID}
-        ID={ID}
-        isLoading={isLoading}
-        isError={isError}
-      />
-      {Object.keys(data).length !== 0 && (
-        <>
-          <motion.div
-            initial={{ scale: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 500,
-              damping: 100,
-            }}
-            animate={{
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotate: 0,
-            }}
-          >
-            <Header />
-            <CustomizedGrid data={data.student.student} />
-            <StudentDetails data={data.student.student} />
-            <FeeDetails data={data} />
-            
-            {
-              data?.tutionFee && data?.hostelFee && (
+      <Box width={"100%"}>
+        <Search
+          getData={getData}
+          setID={setID}
+          ID={ID}
+          isLoading={isLoading}
+          isError={isError}
+          text="Enter Student ID"
+          placeholder="RXXXXXX"
+        />
+        {Object.keys(data).length !== 0 && (
+          <>
+            <motion.div
+              initial={{ scale: 0 }}
+              transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 100,
+              }}
+              animate={{
+                x: 0,
+                y: 0,
+                scale: 1,
+                rotate: 0,
+              }}
+            >
+              <Header />
+              <CustomizedGrid data={data.student.student} />
+              <StudentDetails data={data.student.student} />
+              <FeeDetails data={data} />
+
+              {data?.tutionFee && data?.hostelFee && (
                 <StudentChart data={data} />
-              )
-            }
-          </motion.div>
-        </>
-      )}
+              )}
+            </motion.div>
+          </>
+        )}
+      </Box>
     </>
   );
 }

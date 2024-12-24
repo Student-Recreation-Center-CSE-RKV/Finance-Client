@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -14,32 +14,38 @@ import { useLocation } from "react-router-dom";
 import DueDetails from "./DueDetails";
 import ConsentForm from "./ConsentForm";
 
+const feeDetailsRows = [
+  "Academic Year",
+  "Fee to be Paid",
+  "Scholarship Received",
+  "Other Scholarship/Loan",
+  "Fee Paid by Student",
+  "Grand Total",
+  "Remaining Balance",
+];
+
 export default function FeeDetails({ data }) {
   const location = useLocation();
-  console.log("FeeDetails",data);
+  console.log("FeeDetails", data);
   const [isBalanceZero, setIsBalanceZero] = useState(false);
 
-  // Check if the remaining balance is zero or less than zero
   const checkBalance = () => {
     if (data && data.sch && data.sch.RemainingBalance <= 0) {
       setIsBalanceZero(true);
     } else {
-      setIsBalanceZero(false); // reset if balance is above zero
+      setIsBalanceZero(false);
     }
   };
 
-
   useEffect(() => {
-    checkBalance(); // Check balance whenever data changes
+    checkBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
-
-
 
   return (
     <>
-   <DueDetails data={data}/>
+      <DueDetails data={data} />
 
-      {/* Conditional Scholarship Table */}
       {location.pathname === "/Student/fee" && (
         <Box sx={{ width: "68%", margin: "auto", marginTop: "2rem" }}>
           <Typography
@@ -53,71 +59,9 @@ export default function FeeDetails({ data }) {
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#000" }}>
-                  {" "}
-                  {/* Black background for table head */}
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Academic Year
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Fee to be Paid
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Scholarship Received
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Other Scholarship/Loan
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Fee Paid by Student
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Grand Total
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      color: "#fff",
-                    }}
-                  >
-                    Remaining Balance
-                  </TableCell>
+                  {feeDetailsRows.map((row) => {
+                    return CustomTableCell(row);
+                  })}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -179,11 +123,28 @@ export default function FeeDetails({ data }) {
             </Table>
           </TableContainer>
           <Box sx={{ textAlign: "center", marginTop: "2rem" }}>
-            <ConsentForm studentName={data.student.student.StudentName} studentId={data.student.student.ID}  isDisabled={!isBalanceZero}/>
+            <ConsentForm
+              studentName={data.student.student.StudentName}
+              studentId={data.student.student.ID}
+              isDisabled={!isBalanceZero}
+            />
           </Box>
-          
         </Box>
       )}
     </>
   );
 }
+
+const CustomTableCell = (data) => {
+  return (
+    <TableCell
+      sx={{
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#fff",
+      }}
+    >
+      {data}
+    </TableCell>
+  );
+};

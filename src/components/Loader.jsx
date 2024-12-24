@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, CircularProgress, LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 export default function Loader() {
   return (
     <>

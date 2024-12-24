@@ -6,13 +6,13 @@ import { styled } from "@mui/material/styles";
 const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   boxShadow: "none",
-  margin: theme.spacing(2), // Add margin if you want space around the text
+  margin: theme.spacing(2),
 }));
 
 export default function Header() {
   return (
     <>
-      <Grid2 container direction="column" alignItems={"center"}> 
+      <Grid2 container direction="column" alignItems={"center"}>
         <Grid2 container xs={5}>
           <Item>
             <Typography variant="h4" gutterBottom>

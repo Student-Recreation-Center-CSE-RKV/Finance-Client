@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-// import VerifyTextField from "../utils/VerifyTextField";
 import {
-  TextField,
   Button,
   MenuItem,
   Select,
@@ -16,9 +14,12 @@ import {
   TableContainer,
   TableRow,
   Paper,
+  Stack,
+  Box,
 } from "@mui/material";
+import Search from "./Search";
 
-const EditInstallment = ({ setMessage, triggerSnackbar }) => {
+export default function EditInstallmen({ setMessage, triggerSnackbar }) {
   const [studentID, setStudentID] = useState("");
   const [sourceType, setSourceType] = useState("");
   const [destinationType, setDestinationType] = useState("");
@@ -26,190 +27,212 @@ const EditInstallment = ({ setMessage, triggerSnackbar }) => {
   const [selectedDueNumber, setSelectedDueNumber] = useState("");
   const [dueDetails, setDueDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [showDueDetails, setShowDueDetails] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [isError, setError] = useState(false);
 
-  // Fetch fee details based on student ID
-  const fetchFeeDetails = async () => {
-    // if (!VerifyTextField.textFieldCheck(studentID)) {
-    //   snackbarUtil(setMessage, triggerSnackbar, "Enter valid ID", "error");
-    //   return;
-    // }
-    try {
-      setIsLoading(true);
-      const response = await axios.get(
-        `http://localhost:3001/api/v1/student/fee/${studentID}`
-      );
-      const feeData = response.data.feeDetails;
-      setDueNumbers(feeData.map((due) => due.dueNumber)); // Extract due numbers
+  const modelsMap = {
+    TutionFee: "TutionFeeSchema",
+    HostelFee: "HostelFeeSchema",
+    Others: "OtherFromMSI",
+  };
+
+  const fetchDues = async () => {
+    setSelectedDueNumber(null);
+    setDueNumbers([]);
+    setDueDetails(null);
+    setShowDueDetails(false);
+    if (!studentID || !sourceType || !destinationType) {
       snackbarUtil(
         setMessage,
         triggerSnackbar,
-        "Fetched Fee Details",
-        "success"
+        "Please complete all fields",
+        "error"
       );
-      setIsLoading(false);
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `http://localhost:3001/api/v1/getDuesBasedOnFee/${modelsMap[sourceType]}/${studentID}`
+      );
+
+      setDueNumbers(response.data[0]);
+      if (response.data[0].length > 0)
+        snackbarUtil(
+          setMessage,
+          triggerSnackbar,
+          "Fetched Fee Details",
+          "success"
+        );
+      else snackbarUtil(setMessage, triggerSnackbar, "No Active Dues", "error");
     } catch (error) {
       snackbarUtil(setMessage, triggerSnackbar, error.message, "error");
+    } finally {
       setIsLoading(false);
     }
   };
 
-  // Fetch details for the selected due number
-  const fetchDueDetails = () => {
-    const selectedDue = dueNumbers.find(
-      (due) => due.dueNumber === selectedDueNumber
-    );
+  const fetchDueDetails = (dueNumber) => {
+    const selectedDue = dueNumbers.find((due) => due.ReceiptNo === dueNumber);
     if (selectedDue) {
-      setDueDetails(selectedDue);
+      setDueDetails({
+        dueNumber: selectedDue.ReceiptNo,
+        amount: selectedDue.Amount,
+        dueDate: selectedDue.Date,
+      });
+      setShowDueDetails(true);
+    } else {
+      setShowDueDetails(false);
+    }
+  };
+
+  const changeInstallment = async () => {
+    try {
+      await axios.put(
+        "http://localhost:3001/api/v1/update/studentFee/exchange",
+        {
+          sourceModel: modelsMap[sourceType],
+          targetModel: modelsMap[destinationType],
+          ID: studentID,
+          DueNumber: selectedDueNumber,
+        }
+      );
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        "Installment Updated",
+        "success"
+      );
+    } catch (error) {
+      snackbarUtil(setMessage, triggerSnackbar, error.message, "error");
     }
   };
 
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      {/* Input for Student ID and Fetch Button */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: "20px",
-          gap: "10px",
-        }}
-      >
-        <TextField
-          label="Student ID"
-          value={studentID}
-          onChange={(e) => setStudentID(e.target.value)}
-          fullWidth
+    <>
+      <Box width={"100%"}>
+        <Search
+          getData={fetchDues}
+          ID={studentID}
+          setID={setStudentID}
+          isLoading={isLoading}
+          isError={isError}
+          text="Enter Student Id"
+          placeholder="RXXXXXX"
         />
-      </div>
-      <div>
-        <Button
-          variant="contained"
-          onClick={fetchFeeDetails}
-          disabled={isLoading}
-          sx={{ 
-                marginTop: 2 ,
-                marginBottom:2,
-             }}
-        >
-          Fetch Fee Details
-        </Button>
-      </div>
-      {/* Source Type and Destination Type Select */}
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-          marginTop: "20px",
-          width: "60%",
-        }}
-      >
-        <FormControl fullWidth>
-          <InputLabel>Source Type</InputLabel>
-          <Select
-            value={sourceType}
-            onChange={(e) => setSourceType(e.target.value)}
-            label="Source Type"
-          >
-            <MenuItem value="TutionFee">Tuition Fee</MenuItem>
-            <MenuItem value="HostelFee">Hostel Fee</MenuItem>
-            <MenuItem value="Others">Others</MenuItem>
-          </Select>
-        </FormControl>
 
-        <FormControl fullWidth>
-          <InputLabel>Destination Type</InputLabel>
-          <Select
-            value={destinationType}
-            onChange={(e) => setDestinationType(e.target.value)}
-            label="Destination Type"
-          >
-            <MenuItem value="TutionFee">Tuition Fee</MenuItem>
-            <MenuItem value="HostelFee">Hostel Fee</MenuItem>
-            <MenuItem value="Others">Others</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-
-      {/* Due Number Dropdown */}
-      {dueNumbers.length > 0 && (
-        <div style={{ display: "flex", marginTop: "20px", width: "60%" }}>
+        <Stack direction={"row"} gap={5} sx={{ width: "100%" }} mt={3} mb={3}>
           <FormControl fullWidth>
-            <InputLabel>Due Number</InputLabel>
+            <InputLabel>Source Type</InputLabel>
             <Select
-              value={selectedDueNumber}
-              onChange={(e) => {
-                setSelectedDueNumber(e.target.value);
-                fetchDueDetails();
-              }}
-              label="Due Number"
+              sx={{ width: "100%" }}
+              value={sourceType}
+              onChange={(e) => setSourceType(e.target.value)}
+              label="Source Type"
             >
-              {dueNumbers.map((due) => (
-                <MenuItem key={due} value={due}>
-                  {due}
-                </MenuItem>
-              ))}
+              <MenuItem value="TutionFee">Tuition Fee</MenuItem>
+              <MenuItem value="HostelFee">Hostel Fee</MenuItem>
+              <MenuItem value="Others">Others</MenuItem>
             </Select>
           </FormControl>
-        </div>
-      )}
 
-      {/* Display Due Details */}
-      {dueDetails && (
-        <TableContainer
-          component={Paper}
-          style={{ marginTop: "20px", width: "60%" }}
-        >
-          <Typography
-            variant="h6"
-            align="center"
-            sx={{ marginTop: "20px", marginBottom: "20px", fontWeight: "bold" }}
+          <FormControl fullWidth>
+            <InputLabel>Destination Type</InputLabel>
+            <Select
+              value={destinationType}
+              onChange={(e) => setDestinationType(e.target.value)}
+              label="Destination Type"
+            >
+              <MenuItem value="TutionFee">Tuition Fee</MenuItem>
+              <MenuItem value="HostelFee">Hostel Fee</MenuItem>
+              <MenuItem value="Others">Others</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+
+        {dueNumbers.length > 0 && (
+          <Stack>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel>Due Number</InputLabel>
+              <Select
+                value={selectedDueNumber}
+                onChange={(e) => {
+                  setSelectedDueNumber(e.target.value);
+                  fetchDueDetails();
+                }}
+                label="Due Number"
+              >
+                {dueNumbers.map((due) => (
+                  <MenuItem key={due.ReceiptNo} value={due.ReceiptNo}>
+                    Reciept No: {due.ReceiptNo} - Amount: {due.Amount}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        )}
+
+        {dueDetails && (
+          <TableContainer
+            component={Paper}
+            style={{ marginTop: "20px", width: "60%" }}
           >
-            Due Details
-          </Typography>
-          <Table sx={{ minWidth: 650 }} aria-label="due details table">
-            <TableBody>
-              <TableRow>
-                <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
-                  Due Number
-                </TableCell>
-                <TableCell>{dueDetails.dueNumber}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
-                  Amount
-                </TableCell>
-                <TableCell>{dueDetails.amount}</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
-                  Due Date
-                </TableCell>
-                <TableCell>{dueDetails.dueDate}</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      )}
+            <Typography
+              variant="h6"
+              align="center"
+              sx={{
+                marginTop: "20px",
+                marginBottom: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              Due Details
+            </Typography>
+            <Table sx={{ minWidth: 650 }} aria-label="due details table">
+              <TableBody>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
+                    Due Number
+                  </TableCell>
+                  <TableCell>{dueDetails.dueNumber}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
+                    Amount
+                  </TableCell>
+                  <TableCell>{dueDetails.amount}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell sx={{ fontWeight: "bold", color: "#1976D2" }}>
+                    Due Date
+                  </TableCell>
+                  <TableCell>{dueDetails.dueDate}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )}
 
-      {/* Action Button */}
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
-      >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            // Integrate action here
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
           }}
-          disabled={!dueDetails}
         >
-          Perform Action
-        </Button>
-      </div>
-    </div>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={changeInstallment}
+            disabled={!dueDetails}
+          >
+            Perform Action
+          </Button>
+        </div>
+      </Box>
+    </>
   );
-};
-
-export default EditInstallment;
+}
