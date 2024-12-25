@@ -1,16 +1,15 @@
 import React from "react";
-import Carousel from "../components/Carousel";
-import Sections from "../components/Sections";
 import Footer from "../components/Footer";
-import FinanceOfficeOverview from "../components/FinanceOfficeOverview";
+import Faq from "../components/Faq";
+import { Box, Stack } from "@mui/material";
 
 export default function Home() {
   return (
-    <>
-      <Carousel />
-      <Sections />
-      <FinanceOfficeOverview />
-      <Footer />
-    </>
+    <Box width={"100%"}>
+      <Stack>
+        <Faq />
+        <Footer />
+      </Stack>
+    </Box>
   );
 }
