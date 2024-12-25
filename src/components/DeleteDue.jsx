@@ -33,7 +33,7 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
         `http://localhost:3001/api/v1/getAllDues/${studentID}`
       );
 
-      console.log(response);
+      // console.log(response);
 
       if (response.data.length > 0) {
         snackbarUtil(
@@ -43,10 +43,14 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
           "success"
         );
 
-        console.log(response.data);
+        // console.log(response.data);
         setDueDetails(response.data);
       } else
+      {
+        setDueDetails(response.data);
         snackbarUtil(setMessage, triggerSnackbar, "No Active Dues", "success");
+      }
+        
     } catch (error) {
       console.log(error);
       snackbarUtil(setMessage, triggerSnackbar, error.message, "error");
@@ -55,8 +59,25 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
       setError(false);
     }
   };
-  const deleteDue = () => {
-    console.log(selectedDue);
+  const deleteDue =async () => {
+    const inputToDelete={
+      "ID":studentID,
+      "installmentId":selectedDue._id,
+      "model":selectedDue.type
+    }
+    setIsLoading(true);
+    try {
+      const res = await axios.delete("http://localhost:3001/api/v1/delete/student/installment", {
+        data: inputToDelete // Correctly passing the data
+      });
+      console.log(res);
+      snackbarUtil(setMessage, triggerSnackbar, "Receipt No Deleted Successfully", "success");
+      setIsLoading(false)
+    } catch (error) {
+      snackbarUtil(setMessage, triggerSnackbar, "An Error Occured", "error");
+      setIsLoading(false)
+    }
+    
     setIsLoading(true);
     try {
       fetchDues(studentID);
@@ -79,6 +100,7 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
     <>
       <Box width={"100%"}>
         <AlertDialog
+          data={selectedDue}
           open={open}
           handleClickOpen={handleClickOpen}
           handleClose={handleClose}
