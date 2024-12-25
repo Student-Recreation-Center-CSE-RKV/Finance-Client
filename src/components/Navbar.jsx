@@ -30,7 +30,7 @@ export default function Header() {
         <Box
           component="img"
           src={rguktLogo}
-          alt="Mess Logo"
+          alt="RGUKT Logo"
           sx={{ width: 40, height: 40, marginRight: 2 }}
         />
         <Typography

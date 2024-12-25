@@ -18,7 +18,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
-import "../AddedDues.css";
 
 const headings = [
   "Due Number",
