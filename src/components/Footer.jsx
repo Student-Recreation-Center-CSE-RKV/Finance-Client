@@ -4,8 +4,8 @@ import src_logo from "../assets/src_logo.png";
 
 const Footer = () => {
   return (
-    <Box>
-      <Typography variant="body2" sx={{ marginBottom: "10px" }}>
+    <Box textAlign={"center"}>
+      <Typography variant="body2" m={3}>
         For more information or to request assistance, please contact the
         Finance Office at{" "}
         <Typography variant="div" color="primary">

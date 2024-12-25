@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
-import Divider, { dividerClasses } from "@mui/material/Divider";
+// import Divider, { dividerClasses } from "@mui/material/Divider";
 import Menu from "@mui/material/Menu";
 import MuiMenuItem from "@mui/material/MenuItem";
 import { paperClasses } from "@mui/material/Paper";
@@ -51,9 +51,9 @@ export default function OptionsMenu() {
           [`& .${paperClasses.root}`]: {
             padding: 0,
           },
-          [`& .${dividerClasses.root}`]: {
-            margin: "4px -4px",
-          },
+          // [`& .${dividerClasses.root}`]: {
+          //   margin: "4px -4px",
+          // },
         }}
       >
         {/* {auth.currentUser && (
@@ -68,7 +68,7 @@ export default function OptionsMenu() {
             </MenuItem>
           </>
         )} */}
-        <Divider />
+        {/* <Divider /> */}
         <MenuItem
           onClick={handleClose}
           sx={{

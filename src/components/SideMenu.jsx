@@ -42,7 +42,7 @@ export default function SideMenu() {
         sx={{ justifyContent: "center", alignItems: "center", mb: 1, mt: 2 }}
       >
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Mess Management
+          Finance Office
         </Typography>
         <Typography variant="h6" sx={{ fontWeight: 600 }}>
           Admin

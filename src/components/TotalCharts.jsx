@@ -14,10 +14,69 @@ import {
   Typography,
   ToggleButton,
   ToggleButtonGroup,
+  Stack,
+  Box,
 } from "@mui/material";
 import axios from "axios";
 import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import { motion } from "framer-motion";
+
+const batchArray = [
+  {
+    key: "Total Fee Paid",
+    value: "feePaid",
+  },
+  {
+    key: "Scholarships",
+    value: "scholarships",
+  },
+  {
+    key: "Loans",
+    value: "loans",
+  },
+  {
+    key: "Tution Fee",
+    value: "tutionFee",
+  },
+  {
+    key: "Hostel Fee",
+    value: "hostelFee",
+  },
+  {
+    key: "Hostel Fee",
+    value: "remainingBalance",
+  },
+];
+const categoryArray = [
+  {
+    key: "Gender",
+    value: "gender",
+  },
+  {
+    key: "Total People",
+    value: "totalPeople",
+  },
+  {
+    key: "Total Fee Paid",
+    value: "totalFeePaid",
+  },
+  {
+    key: " Remaining Balance",
+    value: "totalRemainingBalance",
+  },
+  {
+    key: "Hostel Fee",
+    value: "hostelFee",
+  },
+  {
+    key: "Tution Fee",
+    value: "tutionFee",
+  },
+  {
+    key: "Loan",
+    value: "loan",
+  },
+];
 
 export default function TotalCharts() {
   const [loading, setLoading] = useState(true);
@@ -185,30 +244,19 @@ export default function TotalCharts() {
     : [];
   batchOptions.push("0");
 
-  const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-
   return (
     <>
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "400px",
-          }}
-        >
+        <Box>
           <CircularProgress />
-          <Typography variant="h6" style={{ marginLeft: "1rem" }}>
-            Loading...
-          </Typography>
-        </div>
+        </Box>
       ) : (
         <motion.div
+          style={{ width: "100%" }}
           initial={{ scale: 0 }}
           transition={{
             type: "spring",
-            stiffness: 500,
+            stiffness: 1000,
             damping: 100,
           }}
           animate={{
@@ -218,7 +266,7 @@ export default function TotalCharts() {
             rotate: 0,
           }}
         >
-          <div style={{ paddingLeft: "2rem", marginTop: "10px" }}>
+          <Stack spacing={3}>
             {/* Batch-Based Details */}
             <Typography variant="h6">Batch-Based Details</Typography>
             <ToggleButtonGroup
@@ -230,21 +278,14 @@ export default function TotalCharts() {
               aria-label="batch-based chart selection"
               style={{ margin: "1rem" }}
             >
-              <ToggleButton value="feePaid">Total Fee Paid</ToggleButton>
-              <ToggleButton value="scholarships">Scholarships</ToggleButton>
-              <ToggleButton value="loans">Loans</ToggleButton>
-              <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
-              <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
-              <ToggleButton value="remainingBalance">
-                Remaining Balance
-              </ToggleButton>
+              {batchArray.map((item) => {
+                return (
+                  <ToggleButton value={item.value}>{item.key}</ToggleButton>
+                );
+              })}
             </ToggleButtonGroup>
 
-            <ResponsiveContainer
-              width="90%"
-              height={400}
-              style={{ margin: "3rem" }}
-            >
+            <ResponsiveContainer height={400}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -256,15 +297,16 @@ export default function TotalCharts() {
                 />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="value" fill={colors[0]} />
+                <Bar
+                  dataKey="value"
+                  fill={"hsl(210, 100%, 35%)"}
+                  radius={[10, 10, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
 
             {/* Dropdown for Batch Selection */}
-            <FormControl
-              fullWidth
-              style={{ marginTop: "20px", marginBottom: "16px" }}
-            >
+            <FormControl>
               <InputLabel id="demo-simple-select-label">
                 Select Batch
               </InputLabel>
@@ -292,24 +334,15 @@ export default function TotalCharts() {
                 handleCategoryChartClick(newAlignment)
               }
               aria-label="category-based chart selection"
-              style={{ margin: "1rem" }}
             >
-              <ToggleButton value="gender">Gender</ToggleButton>
-              <ToggleButton value="totalPeople">Total People</ToggleButton>
-              <ToggleButton value="totalFeePaid">Total Fee Paid</ToggleButton>
-              <ToggleButton value="totalRemainingBalance">
-                Remaining Balance
-              </ToggleButton>
-              <ToggleButton value="hostelFee">Hostel Fee</ToggleButton>
-              <ToggleButton value="tutionFee">Tution Fee</ToggleButton>
-              <ToggleButton value="loan">Loan</ToggleButton>
+              {categoryArray.map((item) => {
+                return (
+                  <ToggleButton value={item.value}>{item.key}</ToggleButton>
+                );
+              })}
             </ToggleButtonGroup>
 
-            <ResponsiveContainer
-              width="90%"
-              height={400}
-              style={{ margin: "3rem" }}
-            >
+            <ResponsiveContainer height={400}>
               <BarChart data={categoryChartData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -321,10 +354,14 @@ export default function TotalCharts() {
                 />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="value" fill={colors[1]} />
+                <Bar
+                  dataKey="value"
+                  fill={"hsl(210, 100%, 35%)"}
+                  radius={[10, 10, 0, 0]}
+                />
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </Stack>
         </motion.div>
       )}
     </>
