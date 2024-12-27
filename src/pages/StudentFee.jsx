@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Search from "../components/Search";
 import Header from "../components/Header2";
 import StudentDetails from "../components/StudentDetails";
 import FeeDetails from "../components/FeeDetails";
 import CustomizedGrid from "../components/CustomizedGrid";
 import TextFieldUtils from "../utils/VeirfyTextField";
-import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
 import StudentChart from "../components/StudentChart";
 import { motion } from "framer-motion";
 import { Box } from "@mui/material";
+
 export default function StudentFee({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
