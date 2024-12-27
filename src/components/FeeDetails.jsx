@@ -47,18 +47,24 @@ export default function FeeDetails({ data }) {
       <DueDetails data={data} />
 
       {location.pathname === "/Student/fee" && (
-        <Box sx={{ width: "68%", margin: "auto", marginTop: "2rem" }}>
-          <Typography
-            variant="h6"
-            align="center"
-            sx={{ marginBottom: "1rem", fontWeight: "bold" }}
-          >
-            Scholarship
-          </Typography>
+        <Box sx={{ width: "100%", margin: "auto" }}>
+
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#000" }}>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      color: "#fff",
+                    }}
+                    colSpan={7}
+                  >
+                    All ScholarShip Details
+                  </TableCell>
+                </TableRow>
+                <TableRow>
                   {feeDetailsRows.map((row) => {
                     return CustomTableCell(row);
                   })}
@@ -70,9 +76,9 @@ export default function FeeDetails({ data }) {
                     (row, index) =>
                       row.ActualPay !== 0 && (
                         <TableRow key={index}>
-                          <TableCell align="center">{row.Year}</TableCell>
-                          <TableCell align="center">{row.ActualPay}</TableCell>
-                          <TableCell align="center">
+                          <TableCell align="center" sx={{ border: "1px solid black" }}>{row.Year}</TableCell>
+                          <TableCell align="center" sx={{ border: "1px solid black" }}>{row.ActualPay}</TableCell>
+                          <TableCell align="center" sx={{ border: "1px solid black" }}>
                             {row.SchReceived ?? 0}
                           </TableCell>
                           {index === 0 && (
@@ -80,24 +86,28 @@ export default function FeeDetails({ data }) {
                               <TableCell
                                 align="center"
                                 rowSpan={data.sch.academicYears.length}
+                                sx={{ border: "1px solid black" }}
                               >
                                 {data.sch.OtherSch}
                               </TableCell>
                               <TableCell
                                 align="center"
                                 rowSpan={data.sch.academicYears.length}
+                                sx={{ border: "1px solid black" }}
                               >
                                 {data.sch.FeePaidbyTheStudent}
                               </TableCell>
                               <TableCell
                                 align="center"
                                 rowSpan={data.sch.academicYears.length}
+                                sx={{ border: "1px solid black" }}
                               >
                                 {data.sch.TotalFeePaid}
                               </TableCell>
                               <TableCell
                                 align="center"
                                 rowSpan={data.sch.academicYears.length}
+                                sx={{ border: "1px solid black" }}
                               >
                                 {data.sch.RemainingBalance}
                               </TableCell>
@@ -111,11 +121,11 @@ export default function FeeDetails({ data }) {
                 <TableRow>
                   <TableCell
                     colSpan={2}
-                    sx={{ fontWeight: "bold", textAlign: "right" }}
+                    sx={{ fontWeight: "bold", textAlign: "right", border: "1px solid black" }}
                   >
                     Total Scholarship Received:
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>
+                  <TableCell sx={{ fontWeight: "bold", border: "1px solid black" }}>
                     {data.sch.TotalSch}
                   </TableCell>
                 </TableRow>
@@ -141,7 +151,7 @@ const CustomTableCell = (data) => {
       sx={{
         fontWeight: "bold",
         textAlign: "center",
-        color: "#fff",
+        border: "1px solid black"
       }}
     >
       {data}

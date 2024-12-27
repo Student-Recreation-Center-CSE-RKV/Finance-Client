@@ -12,11 +12,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function AlertDialog({
+  data,
   open = false,
-  handleClickOpen,
   handleClose,
   performDelete,
-  text = "Are you sure to delete this Due. This is irreversable process",
+  text = `Are you sure to delete this Due. This is irreversable process`,
 }) {
   return (
     <React.Fragment>
@@ -31,6 +31,10 @@ export default function AlertDialog({
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             {text}
+          </DialogContentText>
+          <DialogContentText id="alert-dialog-slide-description">
+            <h1>{`ReceiptNo:${data?.ReceiptNo}`}</h1>
+            <h1>{`Amount :${data?.Amount}`}</h1>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

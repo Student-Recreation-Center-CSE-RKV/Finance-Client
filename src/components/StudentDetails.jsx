@@ -4,51 +4,57 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Paper,
 } from "@mui/material";
 
-const studentRows = ["Student", "Batch", "Father Name", "Gender", "Category"];
+const studentRows = ["StudentName", "FatherName", "BATCH", "ID", "Gender", "Category"];
+const correspondingValues = ["Student Name", "Father Name", "Batch", "ID", "Gender", "Category"];
+
 export default function StudentDetails({ data }) {
-  console.log(data);
+  // console.log("Revanth", data);
+
   return (
     <TableContainer
       component={Paper}
-      sx={{ width: "68%", margin: "auto", marginTop: "1rem" }}
+      sx={{ width: "100%" }}
     >
       <Table>
-        <TableHead>
-          <TableRow sx={{ backgroundColor: "#000" }}>
-            {studentRows.map((row) => {
-              return CustomTableCell(row);
-            })}
-          </TableRow>
-        </TableHead>
         <TableBody>
-          <TableRow>
-            {Object.entries(data).map(
-              ([key, value]) =>
-                key !== "_id" && (
-                  <TableCell key={key} align="center">
-                    {value}
-                  </TableCell>
-                )
-            )}
-          </TableRow>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <TableRow key={i}>
+              
+              <CustomTableCell
+                label={correspondingValues[2 * i]}
+                value={data[studentRows[2 * i]] || "N/A"}
+              />
+              <CustomTableCell
+                label={correspondingValues[2 * i + 1]}
+                value={data[studentRows[2 * i + 1]] || "N/A"}
+              />
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
 }
 
-const CustomTableCell = (data) => {
+function CustomTableCell({ label, value }) {
   return (
-    <TableCell
-      align="center"
-      sx={{ fontWeight: "bold", textAlign: "center", color: "#fff" }}
-    >
-      {data}
-    </TableCell>
+    <>
+      <TableCell
+        align="center"
+        sx={{ fontWeight: "bold", border: "1px solid black" }}
+      >
+        {label}
+      </TableCell>
+      <TableCell
+        align="center"
+        sx={{ border: "1px solid black" }}
+      >
+        {value}
+      </TableCell>
+    </>
   );
-};
+}
