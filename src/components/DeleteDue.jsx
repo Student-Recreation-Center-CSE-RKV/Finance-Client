@@ -45,12 +45,11 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
 
         // console.log(response.data);
         setDueDetails(response.data);
-      } else
-      {
+      } else {
         setDueDetails(response.data);
         snackbarUtil(setMessage, triggerSnackbar, "No Active Dues", "success");
       }
-        
+
     } catch (error) {
       console.log(error);
       snackbarUtil(setMessage, triggerSnackbar, error.message, "error");
@@ -59,11 +58,12 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
       setError(false);
     }
   };
-  const deleteDue =async () => {
-    const inputToDelete={
-      "ID":studentID,
-      "installmentId":selectedDue._id,
-      "model":selectedDue.type
+  const deleteDue = async () => {
+    const inputToDelete = {
+      "ID": studentID,
+      "installmentId": selectedDue._id,
+      "model": selectedDue.type,
+      "amount": selectedDue.Amount
     }
     setIsLoading(true);
     try {
@@ -77,7 +77,7 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
       snackbarUtil(setMessage, triggerSnackbar, "An Error Occured", "error");
       setIsLoading(false)
     }
-    
+
     setIsLoading(true);
     try {
       fetchDues(studentID);

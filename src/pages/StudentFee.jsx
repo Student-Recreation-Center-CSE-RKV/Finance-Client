@@ -100,8 +100,7 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
                 rotate: 0,
               }}
             >
-              <Header />
-              <CustomizedGrid data={data.student.student} />
+              <Header data={data.student.student}/>
               <StudentDetails data={data.student.student} />
               <FeeDetails data={data} />
 

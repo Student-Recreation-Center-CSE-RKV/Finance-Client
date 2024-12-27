@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import {CustomTableCell} from './DueDetails';
 
-const FeeInstallmentsTable = ({ title, installmentsData, feeType }) => {
+const FeeInstallmentsTable = ({ title, installmentsData, feeType ,total }) => {
   const feeRows = ["Receipt No", "Amount", "Date"];
 
   return (
@@ -77,6 +77,11 @@ const FeeInstallmentsTable = ({ title, installmentsData, feeType }) => {
             }
             return null;
           })}
+          <TableRow>
+            <TableCell align="center" sx={{ border: "1px solid black" }} colSpan={6}>
+              {`Total ${feeType} Fee Paid: ${total}`}
+            </TableCell>
+          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

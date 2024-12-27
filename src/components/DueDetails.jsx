@@ -1,4 +1,5 @@
 import React from "react";
+import FeeInstallmentsTable from './FeeInstallmentTable'; // Import the new component
 import {
   Table,
   TableBody,
@@ -6,67 +7,98 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Stack,
 } from "@mui/material";
-import CustomTypography from "./CustomTypography";
 
 const defaultStudentFees = ["Fee Type", "Reciept No", "Amount", "Date"];
-const feeRows = ["Reciept No", "Amount", "Date"];
-const feeRows2 = ["Reciept No", "Amount", "Date", "Category"];
+const keys = ["ReceiptNo", "Amount", "Date"];
+
 export default function DueDetails({ data }) {
+  const TotalTutionFeeInstallments = data.tutionFee ? data.tutionFee.installments.length : 0;
+  const TotalHostelFeeInstallments = data.hostelFee ? data.hostelFee.installments.length : 0;
+  const TotalOtherFeeInstallments = data.otherFee ? data.otherFee.installments.length : 0;
+
   return (
     <>
       <Stack>
         {data?.tutionFee && (
           <TableContainer sx={{ width: "100%" }}>
-            <CustomTypography>Student Tuition Fee Record</CustomTypography>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: "#000" }}>
-                  {defaultStudentFees.map((row) => {
-                    return CustomTableCell(row);
-                  })}
+                  <TableCell
+                    colSpan={4}
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      color: "#fff",
+                      border: "1px solid black",
+                    }}
+                  >
+                    Admission and Caution Deposit Fee Details
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableHead>
+                <TableRow>
+                  {defaultStudentFees.map((row) => (
+                    <CustomTableCell key={row} data={row} />
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.tutionFee.admissionFee?.length > 0 && (
                   <TableRow>
-                    <TableCell align="center">Admission Fee</TableCell>
-                    {Object.entries(data.tutionFee.admissionFee[0]).map(
-                      ([key, value]) =>
-                        key !== "_id" && (
-                          <TableCell key={key} align="center">
-                            {value}
-                          </TableCell>
-                        )
-                    )}
+                    <TableCell align="center" sx={{ border: "1px solid black" }}>
+                      Admission Fee
+                    </TableCell>
+                    {keys.map((key, index) => {
+                      return (
+                        <TableCell
+                          key={key}
+                          align="center"
+                          sx={{ border: "1px solid black" }}
+                        >
+                          {data.tutionFee.admissionFee[0][key]}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 )}
                 {data.tutionFee.reAdmissionFee?.length > 0 && (
                   <TableRow>
-                    <TableCell align="center">Re-Admission Fee</TableCell>
-                    {Object.entries(data.tutionFee.reAdmissionFee[0]).map(
-                      ([key, value]) =>
-                        key !== "_id" && (
-                          <TableCell key={key} align="center">
-                            {value}
-                          </TableCell>
-                        )
-                    )}
+                    <TableCell align="center" sx={{ border: "1px solid black" }}>
+                      Re-Admission Fee
+                    </TableCell>
+                    {keys.map((key, index) => {
+                      return (
+                        <TableCell
+                          key={key}
+                          align="center"
+                          sx={{ border: "1px solid black" }}
+                        >
+                          {data.tutionFee.reAdmissionFee[0][key]}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 )}
                 {data.tutionFee.cautionDeposit?.length > 0 && (
                   <TableRow>
-                    <TableCell align="center">Caution Deposit</TableCell>
-                    {Object.entries(data.tutionFee.cautionDeposit[0]).map(
-                      ([key, value]) =>
-                        key !== "_id" && (
-                          <TableCell key={key} align="center">
-                            {value}
-                          </TableCell>
-                        )
-                    )}
+                    <TableCell align="center" sx={{ border: "1px solid black" }}>
+                      Caution Deposit
+                    </TableCell>
+                    {keys.map((key, index) => {
+                      return (
+                        <TableCell
+                          key={key}
+                          align="center"
+                          sx={{ border: "1px solid black" }}
+                        >
+                          {data.tutionFee.cautionDeposit[0][key]}
+                        </TableCell>
+                      );
+                    })}
                   </TableRow>
                 )}
               </TableBody>
@@ -74,116 +106,45 @@ export default function DueDetails({ data }) {
           </TableContainer>
         )}
 
-        {/* Tuition Fee Installments Section */}
-        {data?.tutionFee && (
-          <TableContainer
-            component={Paper}
-            sx={{
-              width: "68%",
-              margin: "auto",
-              marginTop: "1rem",
-              marginBottom: "3rem",
-            }}
-          >
-            <CustomTypography>Tuition Fee - Installments</CustomTypography>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#000" }}>
-                  {feeRows.map((row) => {
-                    return CustomTableCell(row);
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.tutionFee.installments?.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{item.ReceiptNo}</TableCell>
-                    <TableCell align="center">{item.Amount}</TableCell>
-                    <TableCell align="center">{item.Date}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        {/* Reuse the FeeInstallmentsTable component */}
+        {TotalTutionFeeInstallments > 0 && (
+          <FeeInstallmentsTable
+            title="Tuition Fee Installments"
+            installmentsData={data.tutionFee.installments}
+            feeType="Tuition"
+            total={data.tutionFee.Total}
+          />
         )}
 
-        {data?.hostelFee && (
-          <TableContainer
-            component={Paper}
-            sx={{
-              width: "68%",
-              margin: "auto",
-              marginTop: "1rem",
-              marginBottom: "3rem",
-            }}
-          >
-            <CustomTypography>Hostel Fee - Installments</CustomTypography>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#000" }}>
-                  {feeRows.map((row) => {
-                    return CustomTableCell(row);
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.hostelFee.installments?.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">{item.ReceiptNo}</TableCell>
-                    <TableCell align="center">{item.Amount}</TableCell>
-                    <TableCell align="center">{item.Date}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        {TotalHostelFeeInstallments > 0 && (
+          <FeeInstallmentsTable
+            title="Hostel Fee Installments"
+            installmentsData={data.hostelFee.installments}
+            feeType="Hostel"
+            total={data.hostelFee.Total}
+          />
         )}
 
-        {data?.otherFee && (
-          <TableContainer
-            component={Paper}
-            sx={{
-              width: "68%",
-              margin: "auto",
-              marginTop: "1rem",
-              marginBottom: "3rem",
-            }}
-          >
-            <CustomTypography>Other Fees - Installments</CustomTypography>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ backgroundColor: "#000" }}>
-                  {feeRows2.map((row) => {
-                    return CustomTableCell(row);
-                  })}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.otherFee.installments &&
-                  data.otherFee.installments?.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">{item.ReceiptNo}</TableCell>
-                      <TableCell align="center">{item.Amount}</TableCell>
-                      <TableCell align="center">{item.Date}</TableCell>
-                      <TableCell align="center">{item.category}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        {TotalOtherFeeInstallments > 0 && (
+          <FeeInstallmentsTable
+            title="Other Fee Installments"
+            installmentsData={data.otherFee.installments}
+            feeType="Other"
+            total={data.otherFee.Total}
+          />
         )}
       </Stack>
     </>
   );
 }
 
-const CustomTableCell = (data) => {
+export const CustomTableCell = ({ data }) => {
   return (
     <TableCell
       sx={{
         fontWeight: "bold",
         textAlign: "center",
-        color: "#fff",
+        border: "1px solid black",
       }}
     >
       {data}
