@@ -311,7 +311,7 @@ const StudentEdit = ({ setMessage, triggerSnackbar }) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  sx={{ marginTop: "30px" }}
+                  sx={{ margin: "30px", height: "50px", fontSize: "1.1rem" }}
                   onClick={formik.handleSubmit}
                 >
                   Submit

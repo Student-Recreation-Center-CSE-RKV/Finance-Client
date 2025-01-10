@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Table,
   TableBody,
@@ -8,9 +8,14 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import {CustomTableCell} from './DueDetails';
+import { CustomTableCell } from "./DueDetails";
 
-const FeeInstallmentsTable = ({ title, installmentsData, feeType ,total }) => {
+export default function FeeInstallmentsTable({
+  title,
+  installmentsData,
+  feeType,
+  total,
+}) {
   const feeRows = ["Receipt No", "Amount", "Date"];
 
   return (
@@ -78,7 +83,11 @@ const FeeInstallmentsTable = ({ title, installmentsData, feeType ,total }) => {
             return null;
           })}
           <TableRow>
-            <TableCell align="center" sx={{ border: "1px solid black" }} colSpan={6}>
+            <TableCell
+              align="center"
+              sx={{ border: "1px solid black" }}
+              colSpan={6}
+            >
               {`Total ${feeType} Fee Paid: ${total}`}
             </TableCell>
           </TableRow>
@@ -86,6 +95,4 @@ const FeeInstallmentsTable = ({ title, installmentsData, feeType ,total }) => {
       </Table>
     </TableContainer>
   );
-};
-
-export default FeeInstallmentsTable;
+}

@@ -10,6 +10,11 @@ export default function DeleteCard({ item, selectDue, open, setOpen }) {
       <ListItem
         key={item._id}
         disableGutters
+        sx={{
+          border: "1px solid #1976d2",
+          padding: "1.1rem",
+          borderRadius: "0.3rem",
+        }}
         secondaryAction={
           <IconButton
             aria-label="comment"

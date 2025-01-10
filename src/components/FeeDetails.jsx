@@ -7,7 +7,6 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   Box,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -48,7 +47,6 @@ export default function FeeDetails({ data }) {
 
       {location.pathname === "/Student/fee" && (
         <Box sx={{ width: "100%", margin: "auto" }}>
-
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -76,9 +74,22 @@ export default function FeeDetails({ data }) {
                     (row, index) =>
                       row.ActualPay !== 0 && (
                         <TableRow key={index}>
-                          <TableCell align="center" sx={{ border: "1px solid black" }}>{row.Year}</TableCell>
-                          <TableCell align="center" sx={{ border: "1px solid black" }}>{row.ActualPay}</TableCell>
-                          <TableCell align="center" sx={{ border: "1px solid black" }}>
+                          <TableCell
+                            align="center"
+                            sx={{ border: "1px solid black" }}
+                          >
+                            {row.Year}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            sx={{ border: "1px solid black" }}
+                          >
+                            {row.ActualPay}
+                          </TableCell>
+                          <TableCell
+                            align="center"
+                            sx={{ border: "1px solid black" }}
+                          >
                             {row.SchReceived ?? 0}
                           </TableCell>
                           {index === 0 && (
@@ -121,11 +132,17 @@ export default function FeeDetails({ data }) {
                 <TableRow>
                   <TableCell
                     colSpan={2}
-                    sx={{ fontWeight: "bold", textAlign: "right", border: "1px solid black" }}
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "right",
+                      border: "1px solid black",
+                    }}
                   >
                     Total Scholarship Received:
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold", border: "1px solid black" }}>
+                  <TableCell
+                    sx={{ fontWeight: "bold", border: "1px solid black" }}
+                  >
                     {data.sch.TotalSch}
                   </TableCell>
                 </TableRow>
@@ -151,7 +168,7 @@ const CustomTableCell = (data) => {
       sx={{
         fontWeight: "bold",
         textAlign: "center",
-        border: "1px solid black"
+        border: "1px solid black",
       }}
     >
       {data}

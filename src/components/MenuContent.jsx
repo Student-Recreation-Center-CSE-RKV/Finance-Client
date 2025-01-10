@@ -43,12 +43,17 @@ const secondaryListItems = [
   {
     text: "Edit Student Detail",
     icon: <BarChartRoundedIcon />,
-    path: "/edit/student",
+    path: "/edit/student/details",
+  },
+  {
+    text: "Edit Student Fee",
+    icon: <FeedbackRoundedIcon />,
+    path: "/edit/student/fee",
   },
   {
     text: "Exchange Installment",
     icon: <FeedbackRoundedIcon />,
-    path: "/edit/installment",
+    path: "/transfer/installment",
   },
 ];
 
@@ -57,7 +62,7 @@ const tertiaryListItems = [
   {
     text: "See All Added Dues",
     icon: <EditRoundedIcon />,
-    path: "/see/added/dues",
+    path: "preview/added/dues",
   },
   {
     text: "Upload Excel",

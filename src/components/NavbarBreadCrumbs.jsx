@@ -12,29 +12,29 @@ export default function NavbarBreadcrumbs() {
       case "/":
         return ["Dashboard", "Home"];
       case "/Student/fee":
-        return ["Dashboard", "Student Fee"];
+        return ["Dashboard", "Studnet", "Student Fee"];
       case "/Bank/Due":
         return ["Dashboard", "Bank Due"];
       case "/add/due":
-        return ["Dashboard", "Add Due"];
-      case "/edit/student":
-        return ["Dashboard", "Edit Student"];
-      case "/edit/installment":
-        return ["Dashboard", "Edit Installment"];
+        return ["Dashboard", "Fee", "Add Due"];
+      case "/edit/student/details":
+        return ["Dashboard", "Student", "Edit"];
+      case "/transfer/installment":
+        return ["Dashboard", "Fee", "Edit Installment"];
       case "/Delete/Due":
-        return ["Dashboard", "Delete Due"];
-      case "/analytics/feedback":
-        return ["Dashboard", "Analytics", "Feedback Analytics"];
+        return ["Dashboard", "Fee", "Delete Due"];
       case "/Insights":
-        return ["Dashboard", "Insights"];
+        return ["Dashboard", "Fee", "Insights"];
       case "/added/dues":
-        return ["Dashboard", "Added Dues"];
-      case "/see/added/dues":
-        return ["Dashboard", "See Added Dues"];
-      case "/upload":
+        return ["Dashboard", "Fee", "Added Dues"];
+      case "/preview/added/dues":
+        return ["Dashboard", "Fee", "preview Added Dues"];
+      case "/Upload":
         return ["Dashboard", "upload files"];
       case "/Auth/Login":
         return ["Dashboard", "Auth", "Login"];
+      case "/edit/student/fee":
+        return ["Dashboard", "Edit", "Fee"];
       default:
         return ["Dashboard", "Unknown"];
     }

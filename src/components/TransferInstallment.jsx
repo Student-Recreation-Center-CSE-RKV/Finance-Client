@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import Search from "./Search";
 
-export default function EditInstallmen({ setMessage, triggerSnackbar }) {
+export default function TransferInstallments({ setMessage, triggerSnackbar }) {
   const [studentID, setStudentID] = useState("");
   const [sourceType, setSourceType] = useState("");
   const [destinationType, setDestinationType] = useState("");
