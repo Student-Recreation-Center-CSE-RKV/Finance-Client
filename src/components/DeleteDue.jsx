@@ -49,7 +49,6 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
         setDueDetails(response.data);
         snackbarUtil(setMessage, triggerSnackbar, "No Active Dues", "success");
       }
-
     } catch (error) {
       console.log(error);
       snackbarUtil(setMessage, triggerSnackbar, error.message, "error");
@@ -60,22 +59,30 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
   };
   const deleteDue = async () => {
     const inputToDelete = {
-      "ID": studentID,
-      "installmentId": selectedDue._id,
-      "model": selectedDue.type,
-      "amount": selectedDue.Amount
-    }
+      ID: studentID,
+      installmentId: selectedDue._id,
+      model: selectedDue.type,
+      amount: selectedDue.Amount,
+    };
     setIsLoading(true);
     try {
-      const res = await axios.delete("http://localhost:3001/api/v1/delete/student/installment", {
-        data: inputToDelete // Correctly passing the data
-      });
+      const res = await axios.delete(
+        "http://localhost:3001/api/v1/delete/student/installment",
+        {
+          data: inputToDelete, // Correctly passing the data
+        }
+      );
       console.log(res);
-      snackbarUtil(setMessage, triggerSnackbar, "Receipt No Deleted Successfully", "success");
-      setIsLoading(false)
+      snackbarUtil(
+        setMessage,
+        triggerSnackbar,
+        "Receipt No Deleted Successfully",
+        "success"
+      );
+      setIsLoading(false);
     } catch (error) {
       snackbarUtil(setMessage, triggerSnackbar, "An Error Occured", "error");
-      setIsLoading(false)
+      setIsLoading(false);
     }
 
     setIsLoading(true);
@@ -118,7 +125,7 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
             placeholder="RXXXXXX"
           />
         </Stack>
-        <Stack p={5}>
+        <Stack mt={3}>
           {dueDetails &&
             dueDetails.map((item) => {
               return (

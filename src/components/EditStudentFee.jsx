@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-import Search from "../components/Search";
+import Search from "./Search";
 import VerifyTextField from "../utils/VeirfyTextField";
 import {
   Stack,
@@ -17,7 +17,7 @@ import {
   Box,
 } from "@mui/material";
 
-export default function StudentEdit({ setMessage, triggerSnackbar }) {
+export default function EditStudentDetails({ setMessage, triggerSnackbar }) {
   const [studentID, setStudentID] = useState("");
   const [studentData, setStudentData] = useState(null);
   const [editData, setEditData] = useState(null);
@@ -39,6 +39,13 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
       );
       setStudentData(response.data.student);
       setEditData(response.data.student);
+      const updatedAmount = {
+        ...response.data.student,
+        Amount: 0,
+      };
+
+      setStudentData(updatedAmount);
+      setEditData(updatedAmount);
       setIsModified(false);
       snackbarUtil(
         setMessage,
@@ -67,14 +74,14 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
     }
   }, [editData, studentData]);
 
-  const saveStudentData = async () => {
+  const saveStudentFeeData = async () => {
     try {
       setIsLoading(true);
-
-      await axios.put(
-        `http://localhost:3001/api/v1/update/student/${studentID}`,
-        editData
-      );
+      // Call API here to upadte Fee Data
+      //   await axios.put(
+      //     `http://localhost:3001/api/v1/update/student/${studentID}`,
+      //     editData
+      //   );
 
       snackbarUtil(
         setMessage,
@@ -131,27 +138,23 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
             m={3}
             sx={{ fontWeight: "bold" }}
           >
-            Edit Student Details
+            Edit Student Total Fee
           </Typography>
           <Table sx={{ minWidth: 650 }} aria-label="student details table">
             <TableBody>
               {[
                 { label: "ID", value: editData.ID, readOnly: true },
                 {
-                  label: "Student Name",
-                  value: editData.StudentName,
-                  field: "StudentName",
+                  label: "Amount",
+                  value: editData.Amount,
+                  type: "number",
+                  field: "Amount",
                 },
-                { label: "Gender", value: editData.Gender, field: "Gender" },
                 {
-                  label: "Category",
+                  label: "Proof",
                   value: editData.Category,
-                  field: "Category",
-                },
-                {
-                  label: "Father's Name",
-                  value: editData.FatherName,
-                  field: "FatherName",
+                  type: "file",
+                  field: "Proof",
                 },
               ].map((field, index) => (
                 <TableRow hover key={index}>
@@ -159,20 +162,43 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
                     {field.label}
                   </TableCell>
                   <TableCell>
-                    <TextField
-                      value={field.value || ""}
-                      onChange={(e) =>
-                        field.field && handleEdit(field.field, e.target.value)
-                      }
-                      fullWidth
-                      InputProps={field.readOnly ? { readOnly: true } : {}}
-                      disabled={field.readOnly}
-                      sx={
-                        field.readOnly
-                          ? { backgroundColor: "#f0f0f0", borderRadius: "5px" }
-                          : {}
-                      }
-                    />
+                    {field.type === "file" ? (
+                      <input
+                        required
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) =>
+                          field.field &&
+                          handleEdit(field.field, e.target.files[0] || null)
+                        }
+                        fullWidth
+                        style={{
+                          width: "100%",
+                          padding: "10px",
+                          border: "1px solid #ccc",
+                          borderRadius: "5px",
+                        }}
+                      />
+                    ) : (
+                      <TextField
+                        value={field.value || ""}
+                        onChange={(e) =>
+                          field.field && handleEdit(field.field, e.target.value)
+                        }
+                        fullWidth
+                        InputProps={field.readOnly ? { readOnly: true } : {}}
+                        disabled={field.readOnly}
+                        sx={
+                          field.readOnly
+                            ? {
+                                backgroundColor: "#f0f0f0",
+                                borderRadius: "5px",
+                              }
+                            : {}
+                        }
+                        type={field.type || "text"}
+                      />
+                    )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -181,14 +207,9 @@ export default function StudentEdit({ setMessage, triggerSnackbar }) {
           <Stack>
             <Button
               variant="contained"
-              sx={{
-                margin: "20px",
-                backgroundColor: "green",
-                "&:hover": {
-                  backgroundColor: "darkgreen",
-                },
-              }}
-              onClick={saveStudentData}
+              color="primary"
+              sx={{ margin: "30px", height: "50px", fontSize: "1rem" }}
+              onClick={saveStudentFeeData}
               disabled={!isModified}
             >
               Save Changes

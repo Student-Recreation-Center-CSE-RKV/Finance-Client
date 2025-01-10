@@ -7,12 +7,12 @@ import UploadPage from "./pages/Upload";
 import BankDue from "./pages/BankDue";
 import Home from "./pages/Home";
 import TotalCharts from "./components/TotalCharts";
-import EditStudent from "./components/EditStudent";
-import EditInstallment from "./components/EditInstallment";
+import EditStudentDetails from "./components/EditStudentDetails";
+import TransferInstallments from "./components/TransferInstallment";
+import EditStudentFee from "./components/EditStudentFee";
 import AddDue from "./components/AddDue";
 import SeeAddedDues from "./components/SeeAddedDues";
 import { AuthProvider } from "./pages/AuthContext";
-// import ConsentForm from "./components/ConsentForm";
 
 import "./App.css";
 import Dashboard from "./pages/DashBoard";
@@ -23,12 +23,10 @@ function App() {
     msg: "",
     type: "",
   });
-  // Function to trigger Snackbar
   const showSnackbar = () => {
     setOpenSnackbar(true);
   };
 
-  // Function to handle closing the Snackbar
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -66,7 +64,7 @@ function App() {
               }
             />
             <Route
-              path="/see/added/dues"
+              path="preview/added/dues"
               element={
                 <SeeAddedDues
                   triggerSnackbar={showSnackbar}
@@ -75,9 +73,18 @@ function App() {
               }
             />
             <Route
-              path="/edit/student"
+              path="/edit/student/details"
               element={
-                <EditStudent
+                <EditStudentDetails
+                  triggerSnackbar={showSnackbar}
+                  setMessage={setMessage}
+                />
+              }
+            />
+            <Route
+              path="/edit/student/fee"
+              element={
+                <EditStudentFee
                   triggerSnackbar={showSnackbar}
                   setMessage={setMessage}
                 />
@@ -102,9 +109,9 @@ function App() {
               }
             />
             <Route
-              path="/edit/installment"
+              path="/transfer/installment"
               element={
-                <EditInstallment
+                <TransferInstallments
                   triggerSnackbar={showSnackbar}
                   setMessage={setMessage}
                 />
