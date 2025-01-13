@@ -8,18 +8,14 @@ import CustomizedGrid from "../components/CustomizedGrid";
 import DueDetails from "../components/DueDetails";
 import { motion } from "framer-motion";
 import { Box } from "@mui/material";
+import baseUrl from "../utils/BaseURL";
 
 export default function BankDue({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
-  const getStudentByIdApi =
-    process.env.REACT_APP_BASE_URL_PROTOCOL +
-    process.env.REACT_APP_BASE_URL_HOST +
-    process.env.REACT_APP_BASE_URL_POST +
-    process.env.REACT_APP_VERSION +
-    process.env.REACT_APP_GET_BANK_DUE;
+  const getStudentByIdApi = baseUrl + process.env.REACT_APP_GET_BANK_DUE;
   const changeData = (e) => {
     setData(e);
   };

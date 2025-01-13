@@ -4,22 +4,17 @@ import Search from "../components/Search";
 import Header from "../components/Header2";
 import StudentDetails from "../components/StudentDetails";
 import FeeDetails from "../components/FeeDetails";
-import CustomizedGrid from "../components/CustomizedGrid";
 import TextFieldUtils from "../utils/VeirfyTextField";
 import { snackbarUtil } from "../utils/SnackbarUtils";
 import StudentChart from "../components/StudentChart";
 import { motion } from "framer-motion";
 import { Box } from "@mui/material";
-
+import baseURL from "../utils/BaseURL";
 export default function StudentFee({ triggerSnackbar, setMessage }) {
   const [data, setData] = useState({});
   const [ID, setID] = useState("");
   const getStudentByIdApi =
-    process.env.REACT_APP_BASE_URL_PROTOCOL +
-    process.env.REACT_APP_BASE_URL_HOST +
-    process.env.REACT_APP_BASE_URL_POST +
-    process.env.REACT_APP_VERSION +
-    process.env.REACT_APP_GET_STUDENT_FEE_BY_ID;
+    baseURL + process.env.REACT_APP_GET_STUDENT_FEE_BY_ID;
   const changeData = (e) => {
     setData(e);
   };
@@ -101,7 +96,7 @@ export default function StudentFee({ triggerSnackbar, setMessage }) {
                 rotate: 0,
               }}
             >
-              <Header data={data.student.student}/>
+              <Header data={data.student.student} />
               <StudentDetails data={data.student.student} />
               <FeeDetails data={data} />
 

@@ -15,7 +15,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import fileUtils from "../utils/fileUtils";
 import { snackbarUtil } from "../utils/SnackbarUtils";
-const UploadPage = ({ triggerSnackbar, setMessage }) => {
+export default function UploadPage({ triggerSnackbar, setMessage }) {
   const [fileType, setFileType] = useState("student");
   const [selectedFile, setSelectedFile] = useState(null);
   const [typeOfExcel, setTypeOfFile] = useState("tutionFee");
@@ -213,6 +213,4 @@ const UploadPage = ({ triggerSnackbar, setMessage }) => {
       </Box>
     </Container>
   );
-};
-
-export default UploadPage;
+}
