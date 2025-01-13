@@ -12,13 +12,15 @@ export default function NavbarBreadcrumbs() {
       case "/":
         return ["Dashboard", "Home"];
       case "/Student/fee":
-        return ["Dashboard", "Studnet", "Student Fee"];
-      case "/Bank/Due":
+        return ["Dashboard", "Student", "Student Fee"];
+      case "/edit/student-details":
+        return ["Dashboard", "Student", "Edit"];
+      case "/allocate/fee":
+        return ["Dashboard", "Fee", "Allocate"];
+      case "/bank/due-details":
         return ["Dashboard", "Bank Due"];
       case "/add/due":
         return ["Dashboard", "Fee", "Add Due"];
-      case "/edit/student/details":
-        return ["Dashboard", "Student", "Edit"];
       case "/transfer/installment":
         return ["Dashboard", "Fee", "Edit Installment"];
       case "/Delete/Due":
@@ -30,11 +32,11 @@ export default function NavbarBreadcrumbs() {
       case "/preview/added/dues":
         return ["Dashboard", "Fee", "preview Added Dues"];
       case "/Upload":
-        return ["Dashboard", "upload files"];
+        return ["Dashboard", "Upload", "upload files"];
       case "/Auth/Login":
         return ["Dashboard", "Auth", "Login"];
-      case "/edit/student/fee":
-        return ["Dashboard", "Edit", "Fee"];
+      case "/edit/student-fee":
+        return ["Dashboard", "Fee", "Edit"];
       default:
         return ["Dashboard", "Unknown"];
     }

@@ -17,6 +17,7 @@ import { AuthProvider } from "./pages/AuthContext";
 import "./App.css";
 import Dashboard from "./pages/DashBoard";
 import DeleteDue from "./components/DeleteDue";
+import AssignAmount from "./pages/AssignAmount";
 function App() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [message, setMessage] = useState({
@@ -55,7 +56,7 @@ function App() {
               }
             />
             <Route
-              path="/Bank/Due"
+              path="/bank/due-details"
               element={
                 <BankDue
                   triggerSnackbar={showSnackbar}
@@ -73,7 +74,7 @@ function App() {
               }
             />
             <Route
-              path="/edit/student/details"
+              path="/edit/student-details"
               element={
                 <EditStudentDetails
                   triggerSnackbar={showSnackbar}
@@ -82,9 +83,18 @@ function App() {
               }
             />
             <Route
-              path="/edit/student/fee"
+              path="/edit/student-fee"
               element={
                 <EditStudentFee
+                  triggerSnackbar={showSnackbar}
+                  setMessage={setMessage}
+                />
+              }
+            />
+            <Route
+              path="/allocate/fee"
+              element={
+                <AssignAmount
                   triggerSnackbar={showSnackbar}
                   setMessage={setMessage}
                 />
